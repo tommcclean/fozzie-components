@@ -10,9 +10,14 @@ export default {
 </script>
 
 <style lang="scss">
-$position: relative;
+$position-relative: relative;
+$position-fixed: fixed;
 
 .c-megaModal {
-    position: $position;
+    position: $position-relative;
+
+    // @include media ('>mid') {
+    //     position: $position-fixed;
+    // }
 }
 </style>
