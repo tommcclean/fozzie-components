@@ -1,0 +1,50 @@
+{
+  "name": "@justeat/f-mega-modal",
+  "description": "Fozzie Mega Modal – A Vue.js modal component",
+  "version": "0.1.0",
+  "main": "dist/MegaModal.min.js",
+  "unpkg": "dist/MegaModal.umd.min.js",
+  "module": "dist/MegaModal.esm.js",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "homepage": "https://github.com/justeat/fozzie-components/tree/master/packages/f-mega-modal",
+  "contributors": [
+    "Github contributors <https://github.com/justeat/fozzie-components/graphs/contributors>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:justeat/fozzie-components.git"
+  },
+  "bugs": {
+    "url": "https://github.com/justeat/fozzie-components/issues"
+  },
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "keywords": [
+    "fozzie"
+  ],
+  "scripts": {
+    "prepublishOnly": "yarn build",
+    "prebuild": "del dist/",
+    "build": "bili src/components/MegaModal.vue --bundle-node-modules --format esm-min,cjs-min,umd-min --moduleName MegaModal"
+  },
+  "browserslist": [
+    "extends @justeat/browserslist-config-fozzie"
+  ],
+  "peerDependencies": {
+    "@justeat/browserslist-config-fozzie": ">=1.1.1"
+  },
+  "devDependencies": {
+    "@vue/test-utils": "1.0.2",
+    "bili": "5.0.5",
+    "del-cli": "3.0.1",
+    "rollup-plugin-vue": "5.1.9"
+  },
+  "dependencies": {
+    "vue-runtime-helpers": "1.1.2"
+  }
+}

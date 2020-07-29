@@ -12,34 +12,38 @@ import {
  * Wrapper for navigator.connection and its Firefox/Safari implementations
  */
 const getNetworkDetails = () => navigator.connection
-        || navigator.mozConnection
-        || navigator.webkitConnection;
+    || navigator.mozConnection
+    || navigator.webkitConnection;
 
 /**
  * Returns a timeout in milliseconds based on the current connection speed. Slower connections will have longer timeouts.
  */
 const getTimeout = () => {
-    const connection = getNetworkDetails();
-    const downlink = connection?.downlink;
+    try {
+        const connection = getNetworkDetails();
+        const downlink = connection?.downlink;
 
-    const speedSlow2g = 0.25;
-    const speed2g = 0.45;
-    const speed3g = 0.75;
-    const speed4g = 4;
+        const speedSlow2g = 0.25;
+        const speed2g = 0.45;
+        const speed3g = 0.75;
+        const speed4g = 4;
 
-    switch (true) {
-        case (downlink < speedSlow2g):
-            return 25000;
-        case (downlink < speed2g):
-            return 20000;
-        case (downlink < speed3g):
-            return 15000;
-        case (downlink < speed4g):
-            return 10000;
-        case (downlink >= speed4g):
-            return 5000;
-        default:
-            return 10000;
+        switch (true) {
+            case (downlink < speedSlow2g):
+                return 25000;
+            case (downlink < speed2g):
+                return 20000;
+            case (downlink < speed3g):
+                return 15000;
+            case (downlink < speed4g):
+                return 10000;
+            case (downlink >= speed4g):
+                return 5000;
+            default:
+                return 10000;
+        }
+    } catch (error) {
+        return 10000;
     }
 };
 
