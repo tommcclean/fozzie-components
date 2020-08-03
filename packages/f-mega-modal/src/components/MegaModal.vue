@@ -16,8 +16,9 @@ $position-fixed: fixed;
 .c-megaModal {
     position: $position-relative;
 
-    // @include media ('>mid') {
-    //     position: $position-fixed;
-    // }
+    @include media ('>mid') {
+        position: $position-fixed;
+        // padding: spacing(x0.5);
+    }
 }
 </style>
