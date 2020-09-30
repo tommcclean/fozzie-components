@@ -17,6 +17,7 @@ describe('f-registration component tests', () => {
 
         // Act
         RegistrationComponent.submitRegistrationForm(userInfo);
+        browser.takeSnapshot('Registration empty manadatory field errors');
 
         // Assert
         expect(RegistrationComponent.isFirstNameEmptyErrorDisplayed()).toBe(true);

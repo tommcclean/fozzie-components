@@ -9,6 +9,7 @@ describe('f-header component tests', () => {
     it('should display the f-header component', () => {
 
         // Assert
+        browser.takeSnapshot('f-header component');
         expect(HeaderComponent.isLogoDisplayed()).toBe(true);
     });
 });
