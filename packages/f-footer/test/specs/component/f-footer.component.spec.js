@@ -7,6 +7,14 @@ describe('f-header component tests', () => {
         FooterComponent.waitForFooter();
     });
 
+    it('should display the f-footer component', () => {
+        // Arrna
+
+        // Assert
+        browser.takeSnapshot('f-footer component');
+        expect(FooterComponent.isFooterDisplayed()).toBe(true);
+    });
+
     it('should display App Store Icons', () => {
         //Assert
         expect(FooterComponent.isIosIconDisplayed()).toBe(true);
