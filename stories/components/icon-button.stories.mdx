@@ -5,7 +5,7 @@
 ## Usage
 Icon Buttons are used to trigger an action from a user’s interaction.
 
-Icon Buttons should only be used when space in a layout does not reasonably allow for a text label to appear. If space is sufficient, use of the Button component is always preferred. 
+Icon Buttons should only be used when space in a layout does not reasonably allow for a text label to appear. If space is sufficient, use of the Button component is always preferred.
 
 Icon glyphs used in an Icon Button should represent the action the user is taking. In lieu of having a text label to provide context, Icon Buttons should always use universally-understood icons, and never ambiguous or unique icons. Examples include Add, Edit, Close, Next, Info.
 
@@ -13,9 +13,11 @@ Icon glyphs used in an Icon Button should represent the action the user is takin
 Since Icon Buttons do not include text labels, an aria-label attribute should be specified describing the button’s action for screen reader compatibility.
 
 
-`<Button aria-label='Add to cart'>
+```js
+<Button aria-label='Add to cart'>
   <Icon name="plus" />
-</Button>`
+</Button>
+```
 
 ## Recipes
 
