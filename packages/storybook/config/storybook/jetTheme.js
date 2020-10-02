@@ -1,38 +1,41 @@
-
 import { create } from '@storybook/theming/create';
+import logo from '../../public/logo--pie.svg';
 
 export default create({
     base: 'dark',
 
     colorPrimary: '#fff',
-    // colorSecondary: 'deepskyblue',
+    colorSecondary: '#2a3846',
 
-    // // UI
+    // UI
     appBg: '#0c151d',
-    // appContentBg: 'silver',
-    // appBorderColor: 'grey',
+    appContentBg: '#1b252e',
+    // appBorderColor: 'hotpink',
     // appBorderRadius: 4,
 
-    // // Typography
+    // Typography
     fontBase: '"JustEatBasis", Arial, sans-serif',
     // fontCode: 'monospace',
 
-    // // Text colors
+    // Text colors
     textColor: '#fff',
-    // textInverseColor: 'rgba(255,255,255,0.9)',
+    textInverseColor: 'hotpink',
 
-    // // Toolbar default and active colors
+    // Toolbar default and active colors
     barTextColor: '#fff',
     barSelectedColor: '#f36d00',
     barBg: '#1b252e',
 
-    // // Form colors
-    // inputBg: 'white',
-    // inputBorder: 'silver',
-    // inputTextColor: 'black',
-    // inputBorderRadius: 4,
+    // Form colors
+    // inputBg: '#f36d00',
+    // inputBorder: 'transparent',
+    // inputTextColor: '#fff',
+    inputBg: '#fff',
+    inputBorder: '#0c151d',
+    inputTextColor: '#fff',
+    inputBorderRadius: 2,
 
     brandTitle: 'Just Eat Takeaway',
     // brandUrl: 'https://pie.just-eat.com/',
-    brandImage: '/logo--pie.png'
+    brandImage: logo
 });
