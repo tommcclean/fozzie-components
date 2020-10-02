@@ -1,11 +1,11 @@
 import {
     withKnobs, boolean, select, text
 } from '@storybook/addon-knobs';
-import Card from '../src/components/Card.vue';
 import { withA11y } from '@storybook/addon-a11y';
+import Card from '../src/components/Card.vue';
 
 export default {
-    title: 'Components/Atoms',
+    title: 'Components/Fozzie/Atoms',
     decorators: [withKnobs, withA11y]
 };
 

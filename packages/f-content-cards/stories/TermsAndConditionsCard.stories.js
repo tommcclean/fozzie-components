@@ -3,7 +3,7 @@ import { withA11y } from '@storybook/addon-a11y';
 import TermsAndConditionsCard from '../src/components/cardTemplates/TermsAndConditionsCard.vue';
 
 export default {
-    title: 'Components/Content/f-content-cards',
+    title: 'Components/Fozzie/Atoms/f-content-cards',
     decorators: [withKnobs, withA11y]
 };
 

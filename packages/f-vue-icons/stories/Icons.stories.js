@@ -10,7 +10,7 @@ Object.keys(IconsComponents).forEach(icon => {
 });
 
 export default {
-    title: 'Components/Atoms',
+    title: 'Components/Fozzie/Atoms',
     decorators: [withA11y]
 };
 

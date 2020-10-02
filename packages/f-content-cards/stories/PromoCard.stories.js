@@ -5,7 +5,7 @@ import jeBackground from './images/je-marketing.jpg';
 import jeIcon from './images/je-icon.png';
 
 export default {
-    title: 'Components/Content/f-content-cards',
+    title: 'Components/Fozzie/Atoms/f-content-cards',
     decorators: [withKnobs, withA11y]
 };
 

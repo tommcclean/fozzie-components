@@ -1,9 +1,9 @@
 import { select, boolean } from '@storybook/addon-knobs';
-import VueFooter from '../src/components/Footer.vue';
 import { withA11y } from '@storybook/addon-a11y';
+import VueFooter from '../src/components/Footer.vue';
 
 export default {
-    title: 'Components/Organisms',
+    title: 'Components/Fozzie/Organisms',
     decorators: [withA11y],
     parameters: {
         a11y: {

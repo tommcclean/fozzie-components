@@ -3,7 +3,7 @@ import { withA11y } from '@storybook/addon-a11y';
 import MegaModal from '../src/components/MegaModal.vue';
 
 export default {
-    title: 'Components/Atoms/f-mega-modal',
+    title: 'Components/Fozzie/Atoms/f-mega-modal',
 
     decorators: [
         withKnobs,

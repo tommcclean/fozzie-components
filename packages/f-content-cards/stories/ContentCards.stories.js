@@ -36,7 +36,7 @@ function resetBrazeData () {
 }
 
 export default {
-    title: 'Components/Organisms',
+    title: 'Components/Fozzie/Organisms',
     decorators: [withKnobs, withA11y]
 };
 

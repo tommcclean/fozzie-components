@@ -1,8 +1,8 @@
 import {
     withKnobs, boolean, select, object
 } from '@storybook/addon-knobs';
-import VueHeader from '../src/components/Header.vue';
 import { withA11y } from '@storybook/addon-a11y';
+import VueHeader from '../src/components/Header.vue';
 
 const userInfo = {
     friendlyName: 'John',
@@ -17,7 +17,7 @@ const userInfo = {
 };
 
 export default {
-    title: 'Components/Organisms',
+    title: 'Components/Fozzie/Organisms',
     decorators: [withKnobs, withA11y]
 };
 
