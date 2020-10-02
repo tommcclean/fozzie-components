@@ -3,7 +3,7 @@ import { withA11y } from '@storybook/addon-a11y';
 import VoucherCard from '../src/components/cardTemplates/VoucherCard.vue';
 
 export default {
-    title: 'Components/Atoms/f-content-cards',
+    title: 'Components/Fozzie/Atoms/f-content-cards',
     decorators: [withKnobs, withA11y]
 };
 
