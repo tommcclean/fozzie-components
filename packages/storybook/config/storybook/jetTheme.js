@@ -4,11 +4,11 @@ import { create } from '@storybook/theming/create';
 export default create({
     base: 'dark',
 
-    // colorPrimary: 'hotpink',
+    colorPrimary: '#fff',
     // colorSecondary: 'deepskyblue',
 
     // // UI
-    // appBg: 'white',
+    appBg: '#0c151d',
     // appContentBg: 'silver',
     // appBorderColor: 'grey',
     // appBorderRadius: 4,
@@ -18,13 +18,13 @@ export default create({
     // fontCode: 'monospace',
 
     // // Text colors
-    // textColor: 'black',
+    textColor: '#fff',
     // textInverseColor: 'rgba(255,255,255,0.9)',
 
     // // Toolbar default and active colors
-    // barTextColor: 'silver',
-    // barSelectedColor: 'black',
-    // barBg: 'hotpink',
+    barTextColor: '#fff',
+    barSelectedColor: '#f36d00',
+    barBg: '#1b252e',
 
     // // Form colors
     // inputBg: 'white',
@@ -33,6 +33,6 @@ export default create({
     // inputBorderRadius: 4,
 
     brandTitle: 'Just Eat Takeaway',
-    brandUrl: 'https://pie.just-eat.com/',
-    brandImage: 'https://dy3erx8o0a6nh.cloudfront.net/images/je-165-x-32-red@2x.png'
+    // brandUrl: 'https://pie.just-eat.com/',
+    brandImage: '/logo--pie.png'
 });
