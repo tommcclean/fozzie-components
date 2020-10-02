@@ -1,0 +1,31 @@
+<Meta title="Components/Icon Button/Documentation"/>
+
+# Icon Button
+
+## Usage
+Icon Buttons are used to trigger an action from a user’s interaction.
+
+Icon Buttons should only be used when space in a layout does not reasonably allow for a text label to appear. If space is sufficient, use of the Button component is always preferred. 
+
+Icon glyphs used in an Icon Button should represent the action the user is taking. In lieu of having a text label to provide context, Icon Buttons should always use universally-understood icons, and never ambiguous or unique icons. Examples include Add, Edit, Close, Next, Info.
+
+>Accessibility note:
+Since Icon Buttons do not include text labels, an aria-label attribute should be specified describing the button’s action for screen reader compatibility.
+
+
+`<Button aria-label='Add to cart'>
+  <Icon name="plus" />
+</Button>`
+
+## Recipes
+
+[Recipes](https://share.goabstract.com/0a64b455-76a0-4d84-ad53-4481167ab502?collectionLayerId=7482fb0a-dc1a-4a21-9d50-dd1be7e718bd&mode=design)
+
+| Recipe Name | Purpose |
+| : | : |
+| Primary | Used for the principal call to action on the page |
+| Secondary | Used for secondary actions on each page |
+| Ghost | Used for non-essential actions that do not need prominence on the page |
+| Ghost Tertiary | Used for non-essential actions that do not need prominence on the page. Use the tertiary ghost style if the action repeats many times on a page, there are many actions, or to create a small scale hierarchy between other elements and the non-essential action |
+| Inverse | Used for the principal call to action on coloured or image backgrounds |
+| Ghost inverse | UUsed for non-essential actions on coloured or image backgrounds |
