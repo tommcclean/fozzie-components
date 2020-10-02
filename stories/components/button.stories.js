@@ -8,7 +8,7 @@ export default {
     }
 };
 
-export const MegaModalComponent = () => ({
+export const ButtonComponent = () => ({
 });
 
-MegaModalComponent.storyName = 'Example';
+ButtonComponent.storyName = 'Example';

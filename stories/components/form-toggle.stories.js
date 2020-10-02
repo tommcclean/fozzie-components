@@ -8,7 +8,7 @@ export default {
     }
 };
 
-export const MegaModalComponent = () => ({
+export const FormToggleComponent = () => ({
 });
 
-MegaModalComponent.storyName = 'Example';
+FormToggleComponent.storyName = 'Example';

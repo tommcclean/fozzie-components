@@ -8,7 +8,7 @@ export default {
     }
 };
 
-export const MegaModalComponent = () => ({
+export const SegmentedControlComponent = () => ({
 });
 
-MegaModalComponent.storyName = 'Example';
+SegmentedControlComponent.storyName = 'Example';
