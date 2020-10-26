@@ -29,14 +29,9 @@
                     data-test-id='selector' />
 
                 <user-note />
-                <button
-                    :class="[
-                        $style['o-btn--allergy'],
-                        'o-btnLink'
-                    ]"
-                    data-test-id="allergy-button">
-                    {{ copy.allergyText }}
-                </button>
+
+                <allergen-information
+                    locale="en-GB" />
 
                 <button
                     :class="[
@@ -58,6 +53,7 @@ import '@justeat/f-card/dist/f-card.css';
 import FormField from '@justeat/f-form-field';
 import '@justeat/f-form-field/dist/f-form-field.css';
 import { VALID_CHECKOUT_METHOD, CHECKOUT_METHOD_DELIVERY } from '../constants';
+import AllergenInformation from './allergens/AllergenInformation.vue';
 import AddressBlock from './Address.vue';
 import FormSelector from './Selector.vue';
 import UserNote from './UserNote.vue';
@@ -67,6 +63,7 @@ export default {
     name: 'VueCheckout',
 
     components: {
+        AllergenInformation,
         AddressBlock,
         Card,
         FormField,
