@@ -28,7 +28,8 @@
                     :order-method="checkoutMethod"
                     data-test-id='selector' />
 
-                <user-note />
+                <form-selector />
+                <user-note data-test-id='user-note'/>
 
                 <allergen-information
                     locale="en-GB" />
