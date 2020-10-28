@@ -20,7 +20,6 @@
             </span>
         </button>
 
-        {{ allergenPhoneNumber }}
         <mega-modal
             :is-open="shouldShowModal"
             has-overlay
@@ -54,29 +53,29 @@
                     {{ copy.allergies.mcDonaldsNutritionInformation }}
                 </a>
             </div>
-            <div
-                v-else
-                :class="$style['c-allergenAlert-standard-wrapper']">
-                <p
-                    v-if="
-                        hasPhoneNumberAndAllergenUrl">
+            <div v-else>
+                <p v-if="hasPhoneNumberAndAllergenUrl">
                     {{ copy.allergies.phoneNumberAndUrl }}
-
+                    <!-- <template #number> -->
                     <allergen-phone-number-link @handleClick="onPhoneClick" />
-
+                    <!-- </template> -->
+                    <!-- <template #readMoreUrl> -->
                     <allergen-url-link @handleClick="onUrlClick" />
+                <!-- </template> -->
                 </p>
 
                 <p v-else-if="hasPhoneNumberOnly">
                     {{ copy.allergies.phoneNumberOnly }}
-
+                    <!-- <template #number> -->
                     <allergen-phone-number-link @handleClick="onPhoneClick" />
+                <!-- </template> -->
                 </p>
 
                 <p v-else-if="hasAllergenUrlOnly">
                     {{ copy.allergies.urlOnly }}
-
+                    <!-- <template #readMoreUrl> -->
                     <allergen-url-link @handleClick="onUrlClick" />
+                <!-- </template> -->
                 </p>
 
                 <p v-else>
@@ -98,7 +97,6 @@
 <script>
 import { globalisationServices } from '@justeat/f-services';
 import MegaModal from '@justeat/f-mega-modal';
-import { mapState } from 'vuex';
 import AllergenPhoneNumberLink from './AllergenPhoneNumberLink.vue';
 import AllergenUrlLink from './AllergenUrlLink.vue';
 import '@justeat/f-mega-modal/dist/f-mega-modal.css';
@@ -120,15 +118,17 @@ export default {
         return {
             copy: { ...localeConfig },
             theme,
-            shouldShowModal: false
+            shouldShowModal: false,
+            allergenPhoneNumber: null,
+            allergenUrl: null,
+            isMcDonalds: false
         };
     },
     computed: {
-        ...mapState('checkout', [
-            'allergenPhoneNumber',
-            'allergenUrl',
-            'isMcDonalds'
-        ]),
+        // ...mapState('restaurantInfo', [
+        //     'allergenPhoneNumber',
+        //     'allergenUrl'
+        // ]),
 
         contactMethod () {
             const phone = this.allergenPhoneNumber ? 'phone' : 'nophone';
@@ -208,9 +208,5 @@ export default {
         &:last-of-type {
             margin: spacing(x1.5) 0 spacing(x3);
         }
-    }
-
-    .c-allergenAlert-standard-wrapper {
-        margin: spacing(x3) 0;
     }
 </style>

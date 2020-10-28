@@ -29,7 +29,7 @@
                     data-test-id='selector' />
 
                 <form-selector />
-                <user-note data-test-id='user-note'/>
+                <user-note data-test-id='user-note' />
 
                 <allergen-information
                     locale="en-GB" />
@@ -59,6 +59,7 @@ import AddressBlock from './Address.vue';
 import FormSelector from './Selector.vue';
 import UserNote from './UserNote.vue';
 import tenantConfigs from '../tenants';
+import checkoutModule from '../store/checkout.module';
 
 export default {
     name: 'VueCheckout',
@@ -114,6 +115,15 @@ export default {
         title () {
             return `${this.name}, confirm your details`;
         }
+    },
+
+    created () {
+        // Register the new module dynamically
+        this.$store.registerModule('checkout', checkoutModule);
+    },
+    beforeDestroy () {
+        // Unregister the dynamically created module
+        this.$store.unregisterModule('checkout');
     }
 };
 </script>

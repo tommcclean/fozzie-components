@@ -1,7 +1,11 @@
 import { withTests } from '@storybook/addon-jest';
+import Vue from 'vue';
+import Vuex from 'vuex';
 import { VALID_CHECKOUT_METHOD, CHECKOUT_METHOD_COLLECTION } from '../src/constants';
 import VueCheckout from '../src/components/Checkout.vue';
 import results from '../src/components/tests/.jest-test-results.json';
+
+Vue.use(Vuex);
 
 export default {
     title: 'Components/Organisms',
@@ -14,6 +18,7 @@ export default {
 export const Checkout = args => ({
     components: { VueCheckout },
     props: Object.keys(args),
+    store: new Vuex.Store({}),
     template:
         '<vue-checkout :checkoutMethod="checkoutMethod" />'
 });
