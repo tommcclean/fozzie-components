@@ -4,6 +4,6 @@ export default {
     state: () => ({
         isMcDonalds: false,
         allergenPhoneNumber: '125215982915',
-        allergenUrl: 'https:lalallaa'
+        allergenUrl: 'https://localhost'
     })
 };

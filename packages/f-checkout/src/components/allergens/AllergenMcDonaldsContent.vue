@@ -49,53 +49,18 @@ export default {
             theme
         };
     },
-    computed: {
-        ...mapState('checkout', [
-            'allergenPhoneNumber',
-            'allergenUrl'
-        ]),
-
-        contactMethod () {
-            const phone = this.allergenPhoneNumber ? 'phone' : 'nophone';
-            const url = this.allergenUrl ? 'url' : 'nourl';
-
-            return `${phone}_${url}`;
-        },
-
-        hasPhoneNumberAndAllergenUrl () {
-            return this.contactMethod === 'phone_url';
-        },
-
-        hasPhoneNumberOnly () {
-            return this.contactMethod === 'phone_nourl';
-        },
-
-        hasAllergenUrlOnly () {
-            return this.contactMethod === 'nophone_url';
-        }
-    },
+    computed: mapState('checkout', [
+        'allergenPhoneNumber',
+        'allergenUrl'
+    ]),
     methods: {
-        showModal () {
-            this.shouldShowModal = true;
-        },
-        onModalClose () {
-            // this.pushAllergensInteraction('click_close');
-            this.shouldShowModal = false;
-        },
+        /* TODO - Add tracking (separate ticket) */
         pushAllergensInteraction (/* label */) {
             // this.trackAllergensInteraction({ label, method: this.contactMethod });
         },
 
-        onPhoneClick () {
-            // this.pushAllergensInteraction('click_phone');
-        },
-
         onUrlClick () {
             // this.pushAllergensInteraction('click_url');
-        },
-
-        onModalOpen () {
-            // this.pushAllergensInteraction('view_dialog');
         }
     }
 };

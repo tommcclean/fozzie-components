@@ -95,13 +95,7 @@ export default {
         }
     },
     methods: {
-        showModal () {
-            this.shouldShowModal = true;
-        },
-        onModalClose () {
-            // this.pushAllergensInteraction('click_close');
-            this.shouldShowModal = false;
-        },
+        /* TODO - Add tracking (separate ticket) */
         pushAllergensInteraction (/* label */) {
             // this.trackAllergensInteraction({ label, method: this.contactMethod });
         },
@@ -112,10 +106,6 @@ export default {
 
         onUrlClick () {
             // this.pushAllergensInteraction('click_url');
-        },
-
-        onModalOpen () {
-            // this.pushAllergensInteraction('view_dialog');
         }
     }
 };

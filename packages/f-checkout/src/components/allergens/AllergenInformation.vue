@@ -79,22 +79,18 @@ export default {
         ])
     },
     methods: {
+        /* TODO - Add tracking (separate ticket) */
         showModal () {
             this.shouldShowModal = true;
         },
+
         onModalClose () {
             // this.pushAllergensInteraction('click_close');
             this.shouldShowModal = false;
         },
+
         pushAllergensInteraction (/* label */) {
             // this.trackAllergensInteraction({ label, method: this.contactMethod });
-        },
-        onPhoneClick () {
-            // this.pushAllergensInteraction('click_phone');
-        },
-
-        onUrlClick () {
-            // this.pushAllergensInteraction('click_url');
         },
 
         onModalOpen () {
