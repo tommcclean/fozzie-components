@@ -20,7 +20,6 @@
             </span>
         </button>
 
-        {{ allergenPhoneNumber }}
         <mega-modal
             :is-open="shouldShowModal"
             has-overlay
@@ -29,60 +28,9 @@
                 {{ copy.allergies.allergenHeading }}
             </h3>
 
-            <div v-if="isMcDonalds">
-                <p>{{ copy.allergies.mcDonaldsAllergy }}</p>
+            <allergen-mc-donalds-content v-if="isMcDonalds" />
 
-                <a
-                    :href="allergenUrl"
-                    :class="$style['c-allergenAlert--link']"
-                    data-test-id="allergen-url-link"
-                    target="_blank"
-                    rel="noopener"
-                    @click="onUrlClick">
-                    {{ copy.allergies.mcDonaldsReadMore }}
-                </a>
-
-                <br>
-
-                <a
-                    :href="copy.allergies.mcDonaldsNutritionUrl"
-                    :class="$style['c-allergenAlert--link']"
-                    data-test-id="nutrition-url-link"
-                    target="_blank"
-                    rel="noopener"
-                    @click="onUrlClick">
-                    {{ copy.allergies.mcDonaldsNutritionInformation }}
-                </a>
-            </div>
-            <div
-                v-else
-                :class="$style['c-allergenAlert-standard-wrapper']">
-                <p
-                    v-if="
-                        hasPhoneNumberAndAllergenUrl">
-                    {{ copy.allergies.phoneNumberAndUrl }}
-
-                    <allergen-phone-number-link @handleClick="onPhoneClick" />
-
-                    <allergen-url-link @handleClick="onUrlClick" />
-                </p>
-
-                <p v-else-if="hasPhoneNumberOnly">
-                    {{ copy.allergies.phoneNumberOnly }}
-
-                    <allergen-phone-number-link @handleClick="onPhoneClick" />
-                </p>
-
-                <p v-else-if="hasAllergenUrlOnly">
-                    {{ copy.allergies.urlOnly }}
-
-                    <allergen-url-link @handleClick="onUrlClick" />
-                </p>
-
-                <p v-else>
-                    {{ copy.allergies.noPhoneNumberAndNoUrl }}
-                </p>
-            </div>
+            <allergen-standard-content v-else />
 
             <button
                 type="button"
@@ -99,13 +47,15 @@
 import { globalisationServices } from '@justeat/f-services';
 import MegaModal from '@justeat/f-mega-modal';
 import { mapState } from 'vuex';
-import AllergenPhoneNumberLink from './AllergenPhoneNumberLink.vue';
-import AllergenUrlLink from './AllergenUrlLink.vue';
+import AllergenMcDonaldsContent from './AllergenMcDonaldsContent.vue';
+import AllergenStandardContent from './AllergenStandardContent.vue';
 import '@justeat/f-mega-modal/dist/f-mega-modal.css';
 import tenantConfigs from '../../tenants';
 
 export default {
-    components: { MegaModal, AllergenPhoneNumberLink, AllergenUrlLink },
+    components: {
+        MegaModal, AllergenMcDonaldsContent, AllergenStandardContent
+    },
     props: {
         locale: {
             type: String,
@@ -125,29 +75,8 @@ export default {
     },
     computed: {
         ...mapState('checkout', [
-            'allergenPhoneNumber',
-            'allergenUrl',
             'isMcDonalds'
-        ]),
-
-        contactMethod () {
-            const phone = this.allergenPhoneNumber ? 'phone' : 'nophone';
-            const url = this.allergenUrl ? 'url' : 'nourl';
-
-            return `${phone}_${url}`;
-        },
-
-        hasPhoneNumberAndAllergenUrl () {
-            return this.contactMethod === 'phone_url';
-        },
-
-        hasPhoneNumberOnly () {
-            return this.contactMethod === 'phone_nourl';
-        },
-
-        hasAllergenUrlOnly () {
-            return this.contactMethod === 'nophone_url';
-        }
+        ])
     },
     methods: {
         showModal () {
@@ -160,7 +89,6 @@ export default {
         pushAllergensInteraction (/* label */) {
             // this.trackAllergensInteraction({ label, method: this.contactMethod });
         },
-
         onPhoneClick () {
             // this.pushAllergensInteraction('click_phone');
         },
@@ -190,27 +118,5 @@ export default {
     button.o-btn-close {
         margin: 0 auto;
         max-width: 400px;
-    }
-
-    .c-allergenAlert--link {
-        display: inline-block;
-        text-decoration: none;
-
-        &:hover,
-        &:focus {
-            text-decoration: underline;
-        }
-
-        &:first-of-type {
-            margin: spacing(x3) 0 spacing(x1.5);
-        }
-
-        &:last-of-type {
-            margin: spacing(x1.5) 0 spacing(x3);
-        }
-    }
-
-    .c-allergenAlert-standard-wrapper {
-        margin: spacing(x3) 0;
     }
 </style>

@@ -1,47 +1,28 @@
 <template>
-    <div
-        :class="$style['c-allergenAlert-standardContent-wrapper']">
-        <p
-            v-if="
-                hasPhoneNumberAndAllergenUrl">
-            {{ copy.allergies.phoneNumberAndUrl }}
+    <div>
+        <p>{{ copy.allergies.mcDonaldsAllergy }}</p>
 
-            <a
-                data-test-id="allergen-phone-link"
-                :href="`tel:${allergenPhoneNumber}`"
-                @handleClick="onPhoneClick">{{ allergenPhoneNumber }}</a>
+        <a
+            :href="allergenUrl"
+            :class="$style['c-allergenAlert--link']"
+            data-test-id="allergen-url-link"
+            target="_blank"
+            rel="noopener"
+            @click="onUrlClick">
+            {{ copy.allergies.mcDonaldsReadMore }}
+        </a>
 
-            <a
-                :href="allergenUrl"
-                data-test-id="allergen-url-link"
-                target="_blank"
-                rel="noopener"
-                @handleClick="onUrlClick">{{ allergenUrl }}/</a>
-        </p>
+        <br>
 
-        <p v-else-if="hasPhoneNumberOnly">
-            {{ copy.allergies.phoneNumberOnly }}
-
-            <a
-                data-test-id="allergen-phone-link"
-                :href="`tel:${allergenPhoneNumber}`"
-                @handleClick="onPhoneClick">{{ allergenPhoneNumber }}</a>
-        </p>
-
-        <p v-else-if="hasAllergenUrlOnly">
-            {{ copy.allergies.urlOnly }}
-
-            <a
-                :href="allergenUrl"
-                data-test-id="allergen-url-link"
-                target="_blank"
-                rel="noopener"
-                @handleClick="onUrlClick">{{ allergenUrl }}/</a>
-        </p>
-
-        <p v-else>
-            {{ copy.allergies.noPhoneNumberAndNoUrl }}
-        </p>
+        <a
+            :href="copy.allergies.mcDonaldsNutritionUrl"
+            :class="$style['c-allergenAlert--link']"
+            data-test-id="nutrition-url-link"
+            target="_blank"
+            rel="noopener"
+            @click="onUrlClick">
+            {{ copy.allergies.mcDonaldsNutritionInformation }}
+        </a>
     </div>
 </template>
 
@@ -52,7 +33,6 @@ import '@justeat/f-mega-modal/dist/f-mega-modal.css';
 import tenantConfigs from '../../tenants';
 
 export default {
-    components: { },
     props: {
         locale: {
             type: String,
@@ -126,5 +106,23 @@ export default {
 
     .c-allergenAlert-standardContent-wrapper {
         margin: spacing(x3) 0;
+    }
+
+    .c-allergenAlert--link {
+        display: inline-block;
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            text-decoration: underline;
+        }
+
+        &:first-of-type {
+            margin: spacing(x3) 0 spacing(x1.5);
+        }
+
+        &:last-of-type {
+            margin: spacing(x1.5) 0 spacing(x3);
+        }
     }
 </style>
