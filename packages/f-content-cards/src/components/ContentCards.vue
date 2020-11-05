@@ -3,16 +3,40 @@
         v-if="hasLoaded"
         :class="[$style['c-contentCards'], $style['c-contentCards--wrap' ]]"
         :data-test-id="testId">
-        <template
-            v-for="(contentCard, cardIndex) in cards">
-            <component
-                :is="handleCustomCardType(contentCard.type)"
-                :key="`${cardIndex}_${contentCard.id}`"
-                :card="contentCard"
-                :title="title"
-                :tenant="tenant"
-                :data-test-id="testIdForItemWithIndex(cardIndex)"
-            />
+        <template v-if="groupCards">
+            <template v-for="({ title, cards: subCards, id: groupId }, groupIndex) in cardsGrouped">
+                <h3
+                    v-if="groupId"
+                    :key="groupIndex"
+                    :class="[$style['c-contentCards--group-title'], 'c-contentCards--group-title']"
+                    :data-test-id="`${groupIndex}_${groupId}`"
+                >
+                    {{ title }}
+                </h3>
+                <div
+                    v-for="(contentCard, cardIndex) in subCards"
+                    :key="`${groupIndex}_${cardIndex}_${contentCard.id}`"
+                    :class="[$style['c-contentCards--group']]"
+                >
+                    <component
+                        :is="handleCustomCardType(contentCard.type)"
+                        :card="contentCard"
+                        :tenant="tenant"
+                        :data-test-id="testIdForItemWithIndex(cardIndex, groupIndex)"
+                    />
+                </div>
+            </template>
+        </template>
+        <template v-else>
+            <template v-for="(contentCard, cardIndex) in cards">
+                <component
+                    :is="handleCustomCardType(contentCard.type)"
+                    :key="`${cardIndex}_${contentCard.id}`"
+                    :card="contentCard"
+                    :tenant="tenant"
+                    :data-test-id="testIdForItemWithIndex(cardIndex)"
+                />
+            </template>
         </template>
     </div>
     <skeleton-loader
@@ -23,10 +47,12 @@
 
 <script>
 import { globalisationServices } from '@justeat/f-services';
-import initialiseBraze, { logCardClick, logCardImpressions } from '@justeat/f-metadata';
-import ContentCards from '../services/contentCard.service';
+import initialiseMetadataDispatcher from '@justeat/f-metadata';
 import cardTemplates from './cardTemplates';
 import tenantConfigs from '../tenants';
+
+export const CARDSOURCE_METADATA = 'metadata';
+export const CARDSOURCE_CUSTOM = 'custom';
 
 /**
  * Generates card-specific analytics data suitable for sending back to GTM via f-trak
@@ -35,7 +61,7 @@ import tenantConfigs from '../tenants';
  * @param card
  * @returns {{contentCTA, customVoucherCode, contentId: *, contentAction: *, contentPosition, contentTitle: *, contentType: string}}
  */
-const createBrazeCardEvent = (contentAction, card) => {
+const createMetadataCardEvent = (contentAction, card) => {
     const {
         id: contentId,
         title: contentTitle,
@@ -55,6 +81,34 @@ const createBrazeCardEvent = (contentAction, card) => {
     };
 };
 
+/**
+ * Generates custom card-specific analytics data suitable for sending back to GTM via f-trak
+ *
+ * @param {String} action
+ * @param {Object} card
+ * @returns {Object}
+ */
+const createCustomCardEvent = (action, card) => {
+    const {
+        headline: name,
+        ctaText: cta
+    } = card;
+
+    return {
+        event: 'Promotion',
+        custom: {
+            Promotion: {
+                name,
+                type: 'justeat_contentCard',
+                id: null,
+                voucher: null,
+                action,
+                cta
+            }
+        }
+    };
+};
+
 export default {
     name: 'ContentCards',
 
@@ -66,6 +120,11 @@ export default {
         apiKey: {
             type: String,
             default: ''
+        },
+
+        brands: {
+            type: Array,
+            default: () => ([])
         },
 
         cardLimit: {
@@ -101,6 +160,11 @@ export default {
         userId: {
             type: String,
             default: ''
+        },
+
+        groupCards: {
+            type: Boolean,
+            default: false
         }
     },
 
@@ -112,15 +176,21 @@ export default {
 
         return {
             cards: [],
+            cardsGrouped: [],
             rawCards: [],
             copy: { ...localeConfig },
             titleCard: {},
             hasLoaded: false,
-            loadingCard
+            loadingCard,
+            metadataDispatcher: null
         };
     },
 
     computed: {
+        /**
+         * Determines the tenant based on the currently selected locale in order to choose correct translations
+         * @return {String}
+         **/
         tenant () {
             return {
                 'en-GB': 'uk',
@@ -136,30 +206,86 @@ export default {
     },
 
     watch: {
+        /**
+         * Determines what card impressions should be logged, and whether the loaded flag should be set
+         * @param {Card[]} current
+         * @param {Card[]} previous
+         **/
         cards (current, previous) {
-            if (current.length && (current.length !== previous.length)) {
-                logCardImpressions(this.rawCards);
+            this.$emit('get-card-count', current.length);
+
+            if (current.length && (current.length !== previous.length) && !this.groupCards) {
+                this.metadataDispatcher.logCardImpressions(this.cards.map(({ id }) => id));
+            }
+            if ((current.length > 0) && (previous.length === 0)) {
+                this.hasLoaded = true;
+            }
+        },
+
+        /**
+         * Determines what card impressions should be logged, and whether the loaded flag should be set for groups cards
+         * @param {Boolean} current
+         * @param {Boolean} previous
+         **/
+        cardsGrouped (current, previous) {
+            this.$emit('get-group-count', current.length);
+
+            if (current.length && (current.length !== previous.length) && this.groupCards) {
+                this.metadataDispatcher.logCardImpressions(this.cardsGrouped.flatMap(({ cards, id }) => [
+                    id, ...cards.map(({ id: cardId }) => cardId)
+                ])
+                .filter(cardID => cardID !== undefined));
+            }
+            if ((current.length > 0) && (previous.length === 0)) {
+                this.hasLoaded = true;
+            }
+        },
+
+        /**
+         * Monitors the loaded flag to emit the has-loaded event if necessary
+         * @param {Boolean} current
+         * @param {Boolean} previous
+         **/
+        hasLoaded (current, previous) {
+            if (current && !previous) {
+                this.$emit('has-loaded', true);
             }
         }
+
     },
 
+    /**
+     * Emits an event that allows consuming code to inject custom content cards, and sets off metadata initialisation
+     **/
     mounted () {
-        this.setupBraze(this.apiKey, this.userId);
+        this.$emit('custom-cards-callback', this.customContentCards.bind(this));
+        this.setupMetadata(this.apiKey, this.userId);
     },
 
+    /**
+     * Sets up dependencies required by descendant components
+     **/
     provide () {
         const component = this;
 
         return {
+            /**
+             * Reflects card click events though to common click event handler
+             **/
             emitCardClick (card) {
-                component.trackCardClick(card);
-                logCardClick(card);
+                component.handleCardClick(card);
             },
 
+            /**
+             * Reflects card view events though to common view event handler
+             **/
             emitCardView (card) {
-                component.trackCardVisibility(card);
+                component.handleCardView(card);
             },
 
+            /**
+             * Emits voucher code click event with given ongoing url
+             **/
             emitVoucherCodeClick (url) {
                 component.$emit('voucherCodeClick', {
                     url
@@ -171,41 +297,122 @@ export default {
     },
 
     methods: {
-        setupBraze (apiKey, userId, enableLogging = false) {
-            try {
-                initialiseBraze({
-                    apiKey,
-                    userId,
-                    enableLogging,
-                    callbacks: {
-                        handleContentCards: this.contentCards
-                    }
-                });
-            } catch (error) {
+        /**
+         * Initializes metadata and handles success / failure states from the returned promise
+         * @param {String} apiKey
+         * @param {String} userId
+         * @param {Boolean} enableLogging
+         * @return {Promise<void>}
+         **/
+        setupMetadata (apiKey, userId, enableLogging = false) {
+            return initialiseMetadataDispatcher({
+                apiKey,
+                userId,
+                enableLogging,
+                enabledCardTypes: [...this.enabledCardTypes, 'Header_Card'],
+                brands: this.brands,
+                callbacks: {
+                    handleContentCards: this.metadataContentCards,
+                    handleContentCardsGrouped: this.metadataContentCardsGrouped
+                }
+            })
+            .then(dispatcher => {
+                this.metadataDispatcher = dispatcher;
+            })
+            .catch(error => {
                 this.$emit('on-error', error);
-            }
+            });
         },
 
-        contentCards (appboy) {
-            if (!appboy) return;
-            const { cards, rawCards, titleCard } = new ContentCards(appboy, {
-                enabledCardTypes: this.enabledCardTypes
-            })
-                .removeDuplicateContentCards()
-                .filterCards()
-                .getTitleCard()
-                .arrangeCardsByTitles()
-                .applyCardLimit(this.cardLimit)
-                .output();
+        /**
+         * Common method for handling card ingestion to component. Card list length of 0 (after filtering) is considered
+         * 'successful' but does not overwrite any cards currently in place, in order to maintain cards that are present
+         * @param {String} source
+         * @param {Function} successCallback
+         * @param {Function} failCallback
+         * @param {Card[]} cards
+         **/
+        contentCards ({
+            source,
+            successCallback = () => {},
+            failCallback = () => {}
+        }, cards) {
+            if (cards === undefined) {
+                return failCallback();
+            }
 
-            this.rawCards = rawCards;
-            this.cards = cards;
-            this.titleCard = titleCard;
-            this.hasLoaded = true;
+            const limitedCards = this.limitCards(cards, this.cardLimit);
 
-            this.$emit('on-braze-init', appboy);
-            this.$emit('get-card-count', cards.length);
-            this.$emit('has-loaded', true);
+            if ((this.cards.length !== 0) && (limitedCards.length === 0)) {
+                return successCallback();
+            }
+
+            this.cards = limitedCards.map(card => Object.assign(card, { source }));
+
+            return successCallback();
+        },
+
+        /**
+         * Common method for handling card ingestion to component for grouped cards.
+         * @param {String} source
+         * @param {Card[]} groupedCards
+         **/
+        contentCardsGrouped ({
+            source
+        }, groupedCards) {
+            this.cardsGrouped = groupedCards.map(card => Object.assign(card, { source }));
+        },
+
+        /**
+         * Handles card ingestion via metadata for groups
+         * @param {Card[]} groupedCards
+         **/
+        metadataContentCardsGrouped (groupedCards) {
+            this.contentCardsGrouped({
+                source: CARDSOURCE_METADATA
+            }, groupedCards);
+        },
+
+        /**
+         * Handles card ingestion via metadata
+         * @param {Card[]} cards
+         **/
+        metadataContentCards (cards) {
+            this.contentCards({
+                source: CARDSOURCE_METADATA,
+                successCallback: () => {
+                    this.$emit('on-braze-init', window.appboy); // for backward compatibility
+                    this.$emit('on-metadata-init', window.appboy);
+                }
+            }, cards);
+        },
+
+        /**
+         * Handles custom card ingestion
+         * @param {Card[]} cards
+         **/
+        customContentCards (cards) {
+            this.contentCards({
+                source: CARDSOURCE_CUSTOM
+            }, cards);
+        },
+
+        /**
+         * Method for returning a shallow copy of the cards array with a maximum of the given limit
+         * @param {Object[]} cards
+         * @param {Number} limit
+         **/
+        limitCards (cards, limit) {
+            if (limit === 1 && this.enabledCardTypes.length > 1) {
+                const filteredCards = [];
+                this.enabledCardTypes.some(enabledCardType => {
+                    const card = cards.find(({ type }) => type === enabledCardType);
+                    if (card) filteredCards.push(card);
+                    return card && filteredCards.length === limit;
+                });
+                return filteredCards;
+            }
+            return limit > -1 ? cards.slice(0, limit) : cards;
         },
 
         /**
@@ -239,27 +446,86 @@ export default {
             return false;
         },
 
-        pushBrazeEvent (payload) {
-            this.pushToDataLayer({
-                event: 'BrazeContent',
-                custom: {
-                    braze: payload
-                }
-            });
+        /**
+         * Takes appropriate response for click event for given card object based on its source
+         * @param card
+         */
+        handleCardClick (card) {
+            switch (card.source) {
+                case CARDSOURCE_METADATA:
+                    this.trackMetadataCardClick(card);
+                    this.metadataDispatcher.logCardClick(card.id);
+                    break;
+                case CARDSOURCE_CUSTOM:
+                    this.trackCustomCardClick(card);
+                    break;
+                default:
+                    throw new Error('Invalid card source type');
+            }
         },
 
-        testIdForItemWithIndex (index) {
-            return this.testId && `ContentCard-${index}`;
+        /**
+         * Takes appropriate response for view event for given card object based on its source
+         * @param card
+         */
+        handleCardView (card) {
+            switch (card.source) {
+                case CARDSOURCE_METADATA:
+                    this.trackMetadataCardVisibility(card);
+                    break;
+                case CARDSOURCE_CUSTOM:
+                    this.trackCustomCardVisibility(card);
+                    break;
+                default:
+                    throw new Error('Invalid card source type');
+            }
         },
 
-        trackCardClick (card) {
-            const event = createBrazeCardEvent('click', card);
-            this.pushBrazeEvent(event);
+        /**
+         * Generates a click event for the given card data and reports using the common method
+         * @param card
+         */
+        trackMetadataCardClick (card) {
+            const event = createMetadataCardEvent('click', card);
+            this.metadataDispatcher.pushShapedEventToDataLayer(this.pushToDataLayer, event);
         },
 
-        trackCardVisibility (card) {
-            const event = createBrazeCardEvent('view', card);
-            this.pushBrazeEvent(event);
+        /**
+         * Generates a click event for the given card data and reports using the common method
+         * @param card
+         */
+        trackCustomCardClick (card) {
+            const event = createCustomCardEvent('click', card);
+            this.pushToDataLayer(event);
+        },
+
+        /**
+         * Generates a view event for the given card data and reports using the common method
+         * @param card
+         */
+        trackMetadataCardVisibility (card) {
+            const event = createMetadataCardEvent('view', card);
+            this.metadataDispatcher.pushShapedEventToDataLayer(this.pushToDataLayer, event);
+        },
+
+        /**
+         * Generates a view event for the given card data and reports using the common method
+         * @param card
+         */
+        trackCustomCardVisibility (card) {
+            const event = createCustomCardEvent('view', card);
+            this.pushToDataLayer(event);
+        },
+
+        /**
+         * Generates a unique test id on a per-card basis if testId prop provided
+         * @param index
+         * @param groupIndex optional
+         */
+        testIdForItemWithIndex (index, groupIndex = null) {
+            return groupIndex !== null ?
+                this.testId && `ContentCard-${this.testId}-${index}-${groupIndex}` :
+                this.testId && `ContentCard-${this.testId}-${index}`;
         }
     }
 };
@@ -279,4 +545,15 @@ export default {
     .c-contentCards--wrap {
         flex-wrap: wrap;
     }
+
+    .c-contentCards--group {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .c-contentCards--group-title {
+        width: 100%;
+        margin-bottom: spacing(x3);
+    }
+
 </style>

@@ -1,24 +1,28 @@
 <template>
-    <div>
-        <bag-celebrate-icon :class="$style['bag-icon']" />
+    <div
+        :class="$style['c-registration']">
         <card
             :data-theme-registration="theme"
-            :card-heading="title"
+            :card-heading="copy.labels.createAccountTitle"
             is-rounded
-            has-outline
             is-page-content-wrapper
             card-heading-position="center"
             data-test-id="registration-component"
             :class="$style['c-card-padding']">
+            <bag-celebrate-icon :class="$style['bag-icon']" />
             <p
-                v-if="shouldShowLoginLink"
+                v-if="showLoginLink"
                 :class="$style['c-loginLink']"
-                data-test-id="create-account-login-link">
-                {{ loginSettings.preLinkText }} <a :href="loginSettings.url">{{ loginSettings.linkText }}</a>
+                data-test-id="create-account-login-link"
+                @click="visitLoginPage">
+                <a :href="copy.navLinks.login.url">{{ copy.navLinks.login.text }}</a>
             </p>
             <form
                 type="post"
                 :class="$style['o-form']"
+                tabindex="0"
+                @click="formStart"
+                @focus="formStart"
                 @submit.prevent="onFormSubmit"
             >
                 <!-- TODO WCB-1031 - Extract error messages into a separate component -->
@@ -32,32 +36,26 @@
                     v-model="firstName"
                     name="firstName"
                     data-test-id="input-first-name"
-                    label-text="First name"
+                    :label-text="copy.labels.firstName"
                     input-type="text"
-                    label-style="inline"
-                    @blur="$v.firstName.$touch">
+                    label-style="inlineNarrow"
+                    @blur="formFieldBlur('firstName')">
                     <template #error>
-                        <p
+                        <error-message
                             v-if="shouldShowFirstNameRequiredError"
-                            :class="$style['o-form-error']"
-                            data-test-id='error-first-name-empty'>
-                            <warning-icon :class="$style['o-form-error-icon']" />
-                            Please include your first name
-                        </p>
-                        <p
+                            data-test-title='error-first-name-empty'>
+                            {{ copy.validationMessages.firstName.requiredError }}
+                        </error-message>
+                        <error-message
                             v-if="shouldShowFirstNameMaxLengthError"
-                            :class="$style['o-form-error']"
-                            data-test-id='error-first-name-maxlength'>
-                            <warning-icon :class="$style['o-form-error-icon']" />
-                            First name exceeds 50 characters
-                        </p>
-                        <p
+                            data-test-title='error-first-name-maxlength'>
+                            {{ copy.validationMessages.firstName.maxLengthError }}
+                        </error-message>
+                        <error-message
                             v-if="shouldShowFirstNameInvalidCharError"
-                            :class="$style['o-form-error']"
-                            data-test-id='error-first-name-invalid'>
-                            <warning-icon :class="$style['o-form-error-icon']" />
-                            First name should only contain letters, hyphens or apostrophes
-                        </p>
+                            data-test-title='error-first-name-invalid'>
+                            {{ copy.validationMessages.firstName.invalidCharError }}
+                        </error-message>
                     </template>
                 </form-field>
 
@@ -65,32 +63,26 @@
                     v-model="lastName"
                     name="lastName"
                     data-test-id="input-last-name"
-                    label-text="Last name"
+                    :label-text="copy.labels.lastName"
                     input-type="text"
-                    label-style="inline"
-                    @blur="$v.lastName.$touch">
+                    label-style="inlineNarrow"
+                    @blur="formFieldBlur('lastName')">
                     <template #error>
-                        <p
+                        <error-message
                             v-if="shouldShowLastNameRequiredError"
-                            :class="$style['o-form-error']"
-                            data-test-id='error-last-name-empty'>
-                            <warning-icon :class="$style['o-form-error-icon']" />
-                            Please include your last name
-                        </p>
-                        <p
+                            data-test-title='error-last-name-empty'>
+                            {{ copy.validationMessages.lastName.requiredError }}
+                        </error-message>
+                        <error-message
                             v-if="shouldShowLastNameMaxLengthError"
-                            :class="$style['o-form-error']"
-                            data-test-id='error-last-name-maxlength'>
-                            <warning-icon :class="$style['o-form-error-icon']" />
-                            Last name exceeds 50 characters
-                        </p>
-                        <p
+                            data-test-title='error-last-name-maxlength'>
+                            {{ copy.validationMessages.lastName.maxLengthError }}
+                        </error-message>
+                        <error-message
                             v-if="shouldShowLastNameInvalidCharError"
-                            :class="$style['o-form-error']"
-                            data-test-id='error-last-name-invalid'>
-                            <warning-icon :class="$style['o-form-error-icon']" />
-                            Last name should only contain letters, hyphens or apostrophes
-                        </p>
+                            data-test-title='error-last-name-invalid'>
+                            {{ copy.validationMessages.lastName.invalidCharError }}
+                        </error-message>
                     </template>
                 </form-field>
 
@@ -98,39 +90,31 @@
                     v-model="email"
                     name="email"
                     data-test-id="input-email"
-                    label-text="Email"
+                    :label-text="copy.labels.email"
                     input-type="email"
-                    label-style="inline"
-                    @blur="$v.email.$touch">
+                    label-style="inlineNarrow"
+                    @blur="formFieldBlur('email')">
                     <template #error>
-                        <p
+                        <error-message
                             v-if="shouldShowEmailRequiredError"
-                            :class="$style['o-form-error']"
-                            data-test-id='error-email-empty'>
-                            <warning-icon :class="$style['o-form-error-icon']" />
-                            Please enter your email address
-                        </p>
-                        <p
+                            data-test-title='error-email-empty'>
+                            {{ copy.validationMessages.email.requiredError }}
+                        </error-message>
+                        <error-message
                             v-else-if="shouldShowEmailInvalidError"
-                            :class="$style['o-form-error']"
-                            data-test-id='error-email-invalid'>
-                            <warning-icon :class="$style['o-form-error-icon']" />
-                            Please enter a valid email address
-                        </p>
-                        <p
+                            data-test-title='error-email-invalid'>
+                            {{ copy.validationMessages.email.invalidEmailError }}
+                        </error-message>
+                        <error-message
                             v-if="shouldShowEmailMaxLengthError"
-                            :class="$style['o-form-error']"
-                            data-test-id='error-email-maxlength'>
-                            <warning-icon :class="$style['o-form-error-icon']" />
-                            Email address exceeds 50 characters
-                        </p>
-                        <p
+                            data-test-title='error-email-maxlength'>
+                            {{ copy.validationMessages.email.maxLengthError }}
+                        </error-message>
+                        <error-message
                             v-else-if="shouldShowEmailAlreadyExistsError"
-                            :class="$style['o-form-error']"
-                            data-test-id='error-email-exists'>
-                            <warning-icon :class="$style['o-form-error-icon']" />
-                            Email address is already registered
-                        </p>
+                            data-test-title='error-email-exists'>
+                            {{ copy.validationMessages.email.alreadyExistsError }}
+                        </error-message>
                     </template>
                 </form-field>
 
@@ -138,32 +122,21 @@
                     v-model="password"
                     name="password"
                     data-test-id="input-password"
-                    label-text="Password"
+                    :label-text="copy.labels.password"
                     input-type="password"
-                    label-style="inline"
-                    @blur="$v.password.$touch">
+                    label-style="inlineNarrow"
+                    @blur="formFieldBlur('password')">
                     <template #error>
-                        <p
+                        <error-message
                             v-if="shouldShowPasswordRequiredError"
-                            :class="$style['o-form-error']"
-                            data-test-id='error-password-empty'>
-                            <warning-icon :class="$style['o-form-error-icon']" />
-                            Please enter a password
-                        </p>
-                        <p
+                            data-test-title='error-password-empty'>
+                            {{ copy.validationMessages.password.requiredError }}
+                        </error-message>
+                        <error-message
                             v-if="shouldShowPasswordMinLengthError"
-                            :class="$style['o-form-error']"
-                            data-test-id='error-password-minlength'>
-                            <warning-icon :class="$style['o-form-error-icon']" />
-                            Password is less than four characters
-                        </p>
-                        <p
-                            v-if="shouldShowPasswordMaxLengthError"
-                            :class="$style['o-form-error']"
-                            data-test-id='error-password-maxlength'>
-                            <warning-icon :class="$style['o-form-error-icon']" />
-                            Password exceeds 50 characters
-                        </p>
+                            data-test-title='error-password-minlength'>
+                            {{ copy.validationMessages.password.minLengthError }}
+                        </error-message>
                     </template>
                 </form-field>
 
@@ -172,7 +145,7 @@
                     button-style="primary"
                     is-full-width
                     :disabled="shouldDisableCreateAccountButton">
-                    {{ buttonText }}
+                    {{ copy.labels.createAccountBtn }}
                 </form-button>
             </form>
             <p :class="$style['c-legal-hyperlinks']">
@@ -210,6 +183,8 @@ import Card from '@justeat/f-card';
 import '@justeat/f-card/dist/f-card.css';
 import FormField from '@justeat/f-form-field';
 import '@justeat/f-form-field/dist/f-form-field.css';
+import ErrorMessage from '@justeat/f-error-message';
+import '@justeat/f-error-message/dist/f-error-message.css';
 import FormButton from './Button.vue';
 import tenantConfigs from '../tenants';
 import RegistrationServiceApi from '../services/RegistrationServiceApi';
@@ -223,6 +198,25 @@ import EventNames from '../event-names';
  */
 const meetsCharacterValidationRules = value => /^[\u0060\u00C0-\u00F6\u00F8-\u017Fa-zA-Z-' ]*$/.test(value);
 
+const formValidationState = $v => {
+    const fields = $v.$params;
+    const invalidFields = [];
+    const validFields = [];
+
+    Object.keys(fields).forEach(key => {
+        if ($v[key].$invalid) {
+            invalidFields.push(key);
+        } else {
+            validFields.push(key);
+        }
+    });
+
+    return {
+        validFields,
+        invalidFields
+    };
+};
+
 export default {
     name: 'Registration',
 
@@ -231,7 +225,8 @@ export default {
         FormButton,
         FormField,
         WarningIcon,
-        BagCelebrateIcon
+        BagCelebrateIcon,
+        ErrorMessage
     },
 
     mixins: [validationMixin],
@@ -241,21 +236,18 @@ export default {
             type: String,
             default: 'en-GB'
         },
-        title: {
-            type: String,
-            default: 'Create Account'
-        },
-        buttonText: {
-            type: String,
-            default: 'Create Account'
-        },
         createAccountUrl: {
             type: String,
             required: true
         },
-        loginSettings: {
-            type: Object,
-            default: () => {}
+        createAccountTimeout: {
+            type: Number,
+            required: false,
+            default: 1000
+        },
+        showLoginLink: {
+            type: Boolean,
+            default: true
         }
     },
 
@@ -273,7 +265,8 @@ export default {
             password: null,
             shouldDisableCreateAccountButton: false,
             genericErrorMessage: null,
-            shouldShowEmailAlreadyExistsError: false
+            shouldShowEmailAlreadyExistsError: false,
+            formStarted: false
         };
     },
 
@@ -318,12 +311,6 @@ export default {
         shouldShowPasswordMinLengthError () {
             return !this.$v.password.minLength && this.$v.password.$dirty;
         },
-        shouldShowPasswordMaxLengthError () {
-            return !this.$v.password.maxLength && this.$v.password.$dirty;
-        },
-        shouldShowLoginLink () {
-            return this.loginSettings && this.loginSettings.linkText && this.loginSettings.url;
-        },
         tenant () {
             return {
                 'en-GB': 'uk',
@@ -356,17 +343,42 @@ export default {
         },
         password: {
             required,
-            minLength: minLength(4),
-            maxLength: maxLength(50)
+            minLength: minLength(4)
         }
     },
 
     methods: {
+        formStart () {
+            if (!this.formStarted) {
+                this.$emit(EventNames.CreateAccountStart);
+                this.formStarted = true;
+            }
+        },
+
+        visitLoginPage () {
+            this.$emit(EventNames.VisitLoginPage);
+        },
+
+        formFieldBlur (field) {
+            const fieldValidation = this.$v[field];
+            if (fieldValidation) {
+                fieldValidation.$touch();
+
+                if (fieldValidation.$invalid) {
+                    this.$emit(EventNames.CreateAccountInlineError, field);
+                }
+            }
+        },
+
         async onFormSubmit () {
             this.genericErrorMessage = null;
             this.shouldShowEmailAlreadyExistsError = false;
 
             if (this.isFormInvalid()) {
+                const validationState = formValidationState(this.$v);
+
+                this.$emit(EventNames.CreateAccountFailure, validationState);
+
                 return;
             }
 
@@ -380,24 +392,32 @@ export default {
                     registrationSource: 'Native',
                     marketingPreferences: []
                 };
-                await RegistrationServiceApi.createAccount(this.createAccountUrl, this.tenant, registrationData);
+                await RegistrationServiceApi.createAccount(this.createAccountUrl, this.tenant, registrationData, this.createAccountTimeout);
                 this.$emit(EventNames.CreateAccountSuccess);
             } catch (error) {
                 let thrownErrors = error;
                 if (error && error.response && error.response.data && error.response.data.errors) {
                     thrownErrors = error.response.data.errors;
                 }
+                let shouldEmitCreateAccountFailure = true;
 
                 if (Array.isArray(thrownErrors)) {
                     if (thrownErrors.some(thrownError => thrownError.errorCode === '409')) {
                         this.shouldShowEmailAlreadyExistsError = true;
+                    } else if (thrownErrors.some(thrownError => thrownError.errorCode === 'FailedUserAuthentication')) {
+                        this.$emit(EventNames.LoginBlocked);
+
+                        shouldEmitCreateAccountFailure = false;
                     } else {
                         this.genericErrorMessage = thrownErrors[0].description || 'Something went wrong, please try again later';
                     }
                 } else {
                     this.genericErrorMessage = error;
                 }
-                this.$emit(EventNames.CreateAccountFailure, thrownErrors);
+
+                if (shouldEmitCreateAccountFailure) {
+                    this.$emit(EventNames.CreateAccountFailure, thrownErrors);
+                }
             } finally {
                 this.shouldDisableCreateAccountButton = false;
             }
@@ -409,59 +429,54 @@ export default {
         }
     }
 };
+
 </script>
 
 <style lang="scss" module>
 
 // Form styling
+.c-registration {
+    margin-top: 100px;
+}
 
 .o-form {
     @include font-size(body-l);
-}
-
-.o-form-error {
-    display: flex;
-    align-items: center;
-    color: $red;
-    @include font-size(body-s);
-    margin-top: spacing();
-}
-
-.o-form-error-icon {
-    width: 16px;
-    height: 16px;
-    margin-right: spacing(x0.5);
 }
 
 * + .o-form {
     margin-top: spacing(x2);
 }
 
-.c-loginLink {
+.c-loginLink,
+.c-legal-hyperlinks {
     text-align: center;
     a {
         color: $blue;
         text-decoration: none;
-    }
-}
-
-.c-legal-hyperlinks {
-    a {
-        color: $blue;
-        text-decoration: none;
+        font-weight: $font-weight-bold;
     }
 }
 
 .c-card-padding {
-    padding-top: 30px;
+    padding-top: spacing(x5);
+    padding-bottom: spacing(x6);
+
+    @include media('<mid') {
+        padding-bottom: spacing(x4);
+    }
 }
 
 .bag-icon {
     width: 97px;
     height: 78px;
-    margin: auto;
-    display: block;
-    position: relative;
-    bottom: -30px;
+    position: absolute;
+    top: 56px;
+    left: 50%;
+    transform: translate(-35%);
+    @include media('<mid') {
+        width: 92px;
+        height: 74px;
+    }
 }
+
 </style>

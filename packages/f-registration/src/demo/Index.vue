@@ -9,11 +9,8 @@
         >
         <registration
             locale="en-GB"
-            :login-settings="{
-                preLinkText: 'Already have an account?',
-                linkText: 'Log in',
-                url: '/login'
-            }"
+            :show-login-link=true
+            create-account-url="/account/register"
             class="registration-form" />
     </div>
 </template>
@@ -33,9 +30,7 @@ export default {
 
 body {
     margin: 0;
+    background-color: #f9fafb;
 }
 
-.registration-form {
-    margin-top: 100px;
-}
 </style>

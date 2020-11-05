@@ -3,6 +3,28 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+v0.8.0
+------------------------------
+*October 26, 2020*
+
+### Added
+- Stylelint added to lint styling on build.
+- data-test IDs to Card Component 
+- Test for Card
+- Card Component-Object 
+
+### Changed
+- 'jet' theme instead of 'je'
+
+
+v0.7.0
+------------------------------
+*October 13, 2020*
+
+### Changed
+- Removed 'beta' style from card heading to align font-size with designs.
+
+
 v0.6.0
 ------------------------------
 *September 21, 2020*

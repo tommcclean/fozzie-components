@@ -1,14 +1,16 @@
 <template>
     <div
         :data-theme="theme"
-        :class="$style['c-<%= name.class %>']">
+        :class="$style['c-<%= name.class %>']"
+        data-test-id='<%= name.class %>-component'>
         {{ copy.text }}
     </div>
 </template>
 
 <script>
 import { globalisationServices } from '@justeat/f-services';
-import tenantConfigs from '../tenants';
+import tenantConfigs from '../tenants';<% if(needsTestingApiMocks) { %>
+import <%= name.filename%>ServiceApi from '../services/<%= name.filename%>ServiceApi';<%}%>
 
 export default {
     name: '<%= name.component %>',

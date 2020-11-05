@@ -14,6 +14,18 @@ module.exports = class extends Generator {
                 message: 'How would you describe your new component?',
                 name: 'description',
                 type: 'input'
+            },
+            {
+                message: 'Does the component require browser-based Component Tests?',
+                name: 'needsComponentTests',
+                type: 'confirm',
+                default: false
+            },
+            {
+                message: 'Does the component interact with any API\'s?',
+                name: 'needsTestingApiMocks',
+                type: 'confirm',
+                default: false
             }
         ]);
     }
@@ -33,20 +45,34 @@ module.exports = class extends Generator {
         this.registerTransformStream(rename(path => {
             path.basename = path.basename
                                 .replace(/(Skeleton)/g, nameTransformations.filename)
+                                .replace(/(f-skeleton)/g, `f-${nameTransformations.class}`)
                                 .replace(/__/g, ''); // We don't want to have file names such as .test.js or .stories.js, otherwise Jest or Storybook will pick them up from the templates folder.
         }));
+        let ignoreTestPattern = this.answers.needsComponentTests ? [] : ["**/*/test/specs/component", '**/*/test-utils/component-objects']
+        const ignoreApiMockPattern = this.answers.needsTestingApiMocks ? [] : ["**/*/src/services"];
+    
+        ignoreTestPattern = ignoreTestPattern.concat(ignoreApiMockPattern);
+
+        const date = new Date();
+        const month = date.toLocaleString('en-GB', { month: 'long' });
+        const day = date.toLocaleString('en-GB', { day: 'numeric' });
+        const year = date.toLocaleString('en-GB', { year: 'numeric' });
 
         this.fs.copyTpl(
             this.templatePath('**/*'),
-            this.destinationPath(`../f-${nameTransformations.default}/`),
+            this.destinationPath(`f-${nameTransformations.default}/`),
             {
                 description: this.answers.description,
-                name: nameTransformations
+                name: nameTransformations,
+                needsComponentTests: this.answers.needsComponentTests,
+                needsTestingApiMocks: this.answers.needsTestingApiMocks,
+                changelogDate: `${month} ${day}, ${year}`
             },
             null,
             {
                 globOptions: {
-                    dot: true
+                    dot: true,
+                    ignore: ignoreTestPattern
                 }
             }
         );

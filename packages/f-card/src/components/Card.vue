@@ -1,6 +1,7 @@
 <template>
     <div
         :data-theme-card="theme"
+        data-test-id="card-component"
         :class="[
             $style['c-card'],
             (isRounded ? $style['c-card--rounded'] : ''),
@@ -10,7 +11,6 @@
         <h1
             v-if="cardHeading"
             :class="[
-                'beta',
                 $style['c-card-heading'],
                 (cardHeadingPosition !== 'left' ? $style[`c-card--${cardHeadingPosition}`] : '')
             ]"

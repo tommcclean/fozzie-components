@@ -3,6 +3,96 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+
+v0.39.0
+------------------------------
+*November 3, 2020*
+
+### Changed
+- Added f-error-message for inline registration page errors
+
+*October 28, 2020*
+
+### Added
+- Stylelint added to lint styling on build.
+
+### Changed
+- 'jet' theme instead of 'je'
+
+### Removed
+- System test mocks
+
+
+v0.37.0
+------------------------------
+*October 22, 2020*
+
+### Changed
+- Various style to align better with designs.
+
+
+v0.36.0
+------------------------------
+*October 20, 2020*
+
+### Added
+- Handling of 403 responses in `f-registration`.
+- New prop to set the form AJAX call timeout.
+
+
+v0.35.0
+------------------------------
+*October 16, 2020*
+
+### Added
+- Moved text into translations file
+- Support for locale en-GB
+- Emit VisitLoginPage event on login page click interaction
+
+### Changed
+- Prop for showing login link changed to boolean called `showLoginLink`
+
+
+v0.34.0
+------------------------------
+*October 9, 2020*
+
+### Added
+- Emit CreateAccountStart event on first form interaction
+- Emit CreateAccountInlineError event on field blur and fails validation
+
+### Changed
+- Updated CreateAccountFailure emit event to pass the valid & invalid fields in the payload
+
+
+v0.33.0
+------------------------------
+*October 5, 2020*
+
+### Added
+- Emit CreateAccountFailure event when form is submitted with validation errors
+
+### Changed
+- Password field has no max length requirement
+- Refactored unit tests to ensure failure event is emitted because of validation errors and not service failures
+
+
+v0.32.0
+------------------------------
+*October 05, 2020*
+
+### Changed
+- Use the latest version of `f-form-field` to display form labels on desktop.
+
+
+v0.31.0
+------------------------------
+*September 30, 2020*
+
+### Added
+- Accessibility tests that run as part of the pipeline
+
+
 v0.30.0
 ------------------------------
 *September 29, 2020*

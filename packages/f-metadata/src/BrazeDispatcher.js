@@ -45,7 +45,8 @@ function contentCardsHandler (postCardsAppboy) {
 
     const {
         cards,
-        rawCards
+        rawCards,
+        groups
     } = new ContentCards(postCardsAppboy, { enabledCardTypes: this.dispatcherOptions.enabledCardTypes })
         .removeDuplicateContentCards()
         .filterCards()
@@ -54,6 +55,7 @@ function contentCardsHandler (postCardsAppboy) {
         .output();
 
     this.cardsCallbacks.forEach(callback => callback(cards));
+    this.groupedCardsCallback.forEach(callback => callback(groups));
 
     this.rawCards = rawCards;
 
@@ -95,6 +97,7 @@ class BrazeDispatcher {
         this.dispatcherOptions = null;
 
         this.cardsCallbacks = [];
+        this.groupedCardsCallback = [];
         this.inAppMessageClickEventCallbacks = [];
         this.inAppMessagesCallbacks = [];
 
@@ -105,6 +108,8 @@ class BrazeDispatcher {
         this.refreshRequested = false;
 
         this.sessionTimeoutInSeconds = sessionTimeoutInSeconds;
+
+        this.eventSignifier = 'BrazeContent';
     }
 
     /**
@@ -145,6 +150,7 @@ class BrazeDispatcher {
         if (callbacks.interceptInAppMessageClickEvents) this.inAppMessageClickEventCallbacks.push(callbacks.interceptInAppMessageClickEvents);
         if (callbacks.interceptInAppMessages) this.inAppMessagesCallbacks.push(callbacks.interceptInAppMessages);
         if (callbacks.handleContentCards) this.cardsCallbacks.push(callbacks.handleContentCards);
+        if (callbacks.handleContentCardsGrouped) this.groupedCardsCallback.push(callbacks.handleContentCardsGrouped);
 
         // Note that appBoyPromise will not be set if this is the first time running this method -
         // this is a guard against initialise() being called more than once, and attempting to
@@ -254,6 +260,20 @@ class BrazeDispatcher {
             .filter(a => a !== undefined)
             .map(cardIndex => this.rawCards[cardIndex]);
         return this.logEvent('logCardImpressions', cardsShown);
+    }
+
+    /**
+     * Uses supplied pushToDataLayer function to report braze card event
+     * @param {Function} pushToDataLayer
+     * @param {Object} payload
+     */
+    pushShapedEventToDataLayer (pushToDataLayer, payload) {
+        pushToDataLayer({
+            event: this.eventSignifier,
+            custom: {
+                braze: payload
+            }
+        });
     }
 }
 

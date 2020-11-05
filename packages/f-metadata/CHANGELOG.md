@@ -4,6 +4,31 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+v3.0.0-beta.4
+------------------------------
+*October 22, 2020*
+
+### Changed
+- In arrangeCardsByTitles we now push all card data into group rather than just the title, this is to aid in impressions
+ tracking and future headers that require more than the title being displayed.
+
+
+v3.0.0-beta.3
+------------------------------
+*October 22, 2020*
+
+### Changed
+- Adds grouping functionality to Braze dispatcher via new callback
+
+
+v3.0.0-beta.2
+------------------------------
+*October 14, 2020*
+
+### Changed
+- Integrates home promo card 1 & 2 changes from released f-content-card
+
+
 v3.0.0-beta.1
 ------------------------------
 *September 15, 2020*

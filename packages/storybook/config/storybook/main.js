@@ -9,6 +9,7 @@ module.exports = {
         '@storybook/addon-links',
         '@storybook/addon-a11y',
         '@storybook/addon-controls',
-        'storybook-addons-abstract'
+        'storybook-addons-abstract',
+        '@storybook/addon-jest'
     ]
 };
