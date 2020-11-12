@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default {
-    async getData (url, tenant, timeout) {
+    async getData (url, tenant, data, timeout) {
         const config = {
             method: 'get',
             headers: {
@@ -11,6 +11,19 @@ export default {
             timeout
         };
         return axios
-            .get(url, config);
+            .get(url, data, config);
+    },
+
+    async submitCheckout (url, tenant, data, timeout) {
+        const config = {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept-Tenant': tenant
+            },
+            timeout
+        };
+        return axios
+            .post(url, data, config);
     }
 };
