@@ -1,4 +1,4 @@
-import { select } from '@storybook/addon-knobs';
+import { select, text } from '@storybook/addon-knobs';
 import { withA11y } from '@storybook/addon-a11y';
 
 import {
@@ -12,10 +12,16 @@ import {
 } from '../../storybook/constants/globalisation';
 
 import VueCheckout from '../src/components/Checkout.vue';
+import CheckoutMock from '../src/demo/checkoutMock';
+
+CheckoutMock.setup('/checkout.json');
 
 export default {
     title: 'Components/Organisms',
-    decorators: [withA11y]
+    decorators: [withA11y],
+    argTypes: {
+        checkoutUrl: { control: { type: 'text' } }
+    }
 };
 
 export const CheckoutComponent = () => ({
@@ -24,12 +30,12 @@ export const CheckoutComponent = () => ({
         locale: {
             default: select('Locale', VALID_LOCALES, ENGLISH_LOCALE)
         },
-        checkoutMethod: {
-            default: select('Checkout Method', VALID_CHECKOUT_METHOD, CHECKOUT_METHOD_DELIVERY)
+        checkoutUrl: {
+            default: text('Checkout URL', '/checkout.json')
         }
     },
     template:
-        '<vue-checkout :checkoutMethod="checkoutMethod" :locale="locale" />'
+        '<vue-checkout :locale="locale" :checkout-url="checkoutUrl" />'
 });
 
 CheckoutComponent.storyName = 'f-checkout';

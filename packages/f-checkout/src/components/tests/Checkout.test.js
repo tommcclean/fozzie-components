@@ -1,6 +1,5 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import { VueI18n } from '@justeat/f-globalisation';
-import { VALID_CHECKOUT_METHOD } from '../../constants';
 import VueCheckout from '../Checkout.vue';
 import tenantConfigs from '../../tenants';
 
@@ -15,9 +14,16 @@ const i18n = {
 
 describe('Checkout', () => {
     allure.feature('Checkout');
-    it('should be defined', () => {
-        const propsData = {};
 
+    const checkoutUrl = '/checkout/uk/12345';
+
+    let propsData;
+
+    beforeEach(() => {
+        propsData = { checkoutUrl };
+    });
+
+    it('should be defined', () => {
         const wrapper = shallowMount(VueCheckout, {
             i18n,
             localVue,
@@ -27,70 +33,8 @@ describe('Checkout', () => {
         expect(wrapper.exists()).toBe(true);
     });
 
-    describe('props ::', () => {
-        describe('checkoutMethod ::', () => {
-            it.each(VALID_CHECKOUT_METHOD)('should update the Selector `ordermethod` attribute to match checkoutMethod=%p', definedType => {
-                // Arrange
-                const propsData = {
-                    checkoutMethod: definedType
-                };
-
-                // Act
-                const wrapper = shallowMount(VueCheckout, {
-                    i18n,
-                    localVue,
-                    propsData
-                });
-
-                const selectorComponent = wrapper.find('[data-test-id="selector"]');
-
-                // Assert
-                expect(selectorComponent.attributes('ordermethod')).toEqual(definedType);
-            });
-
-            it('should display the address block if set to `Delivery`', () => {
-                // Arrange
-                const propsData = {
-                    checkoutMethod: 'Delivery'
-                };
-
-                // Act
-                const wrapper = shallowMount(VueCheckout, {
-                    i18n,
-                    localVue,
-                    propsData
-                });
-
-                const addressBlock = wrapper.find('[data-test-id="address-block"]');
-
-                // Assert
-                expect(addressBlock.exists()).toBe(true);
-            });
-
-            it('should not display the address block if set to `Collection`', () => {
-                // Arrange
-                const propsData = {
-                    checkoutMethod: 'Collection'
-                };
-
-                // Act
-                const wrapper = shallowMount(VueCheckout, {
-                    i18n,
-                    localVue,
-                    propsData
-                });
-
-                const addressBlock = wrapper.find('[data-test-id="address-block"]');
-
-                // Assert
-                expect(addressBlock.exists()).toBe(false);
-            });
-        });
-    });
-
     describe('computed ::', () => {
-        const propsData = {};
-        const data = { firstName: 'name' };
+        const data = { customer: { firstName: 'name' } };
 
         describe('name ::', () => {
             it('should capitalize `firstName` data', async () => {

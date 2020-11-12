@@ -18,7 +18,7 @@ new Vue({
     i18n,
     render: h => h(VueCheckout, {
         props: {
-            checkoutMethod: 'Delivery'
+            checkoutUrl: '/checkout.json'
         }
     })
 }).$mount('#app');
