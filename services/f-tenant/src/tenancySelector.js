@@ -43,8 +43,6 @@ const tenancySelector = ({
 }) => {
     // Only run this process once, on the first request; which is always server side.
     try {
-        console.log('Start', process.server);
-
         if (typeof (window) === 'undefined') {
             _logger = $logger;
             _store = store;
@@ -67,7 +65,9 @@ const tenancySelector = ({
             });
         }
     } catch (error) {
-        console.log(error);
+        $logger.logError('Unable to set tenant', store, {
+            error
+        });
     }
 };
 

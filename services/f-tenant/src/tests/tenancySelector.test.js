@@ -1,4 +1,4 @@
-import TenancySelector from '../index';
+import TenancySelector from '../tenancySelector';
 
 describe('Tenancy Selector', () => {
     const EXPECTED_ACTION_NAME = 'globalisation/select';
@@ -20,6 +20,8 @@ describe('Tenancy Selector', () => {
         selectedTenant = null;
         selectedLocale = null;
         actionDispatched = null;
+        // eslint-disable-next-line no-global-assign
+        window = undefined;
 
         context = {
             app: {

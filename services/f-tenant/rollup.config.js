@@ -11,7 +11,7 @@ export default {
         {
             file: pkg.main,
             format: 'umd',
-            name: 'f-services'
+            name: 'f-tenant'
         },
         { file: pkg.module, format: 'es' }
     ],
