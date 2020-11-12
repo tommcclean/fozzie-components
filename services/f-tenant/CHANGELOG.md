@@ -9,5 +9,5 @@ v0.1.0
 *September 24, 2019*
 
 ### Added
-- Created service package for shared logic
-- Tests for the methods inside
+- Created F-Tenant Package
+- Brought over existing code from CoreWeb
