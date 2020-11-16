@@ -42,5 +42,8 @@
     "rollup": "1.26.3",
     "rollup-plugin-babel": "4.4.0",
     "rollup-plugin-terser": "5.1.2"
+  },
+  "dependencies": {
+    "js-cookie": "^2.2.1"
   }
 }
