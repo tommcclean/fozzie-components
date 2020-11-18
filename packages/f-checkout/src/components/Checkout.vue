@@ -10,7 +10,6 @@
             :heading="$t('errorMessages.errorHeading')">
             {{ genericErrorMessage }}
         </alert>
-
         <card
             :card-heading="title"
             is-rounded
@@ -23,7 +22,7 @@
                 type="post"
                 @submit.prevent="onFormSubmit">
                 <form-field
-                    v-model="mobileNumber"
+                    v-model="customer.mobileNumber"
                     name="mobile-number"
                     data-test-id="input-mobile-number"
                     :label-text="$t('labels.mobileNumber')"
@@ -39,13 +38,13 @@
 
                 <address-block
                     v-if="isCheckoutMethodDelivery"
-                    v-model="address"
-                    :address="address"
+                    v-model="fulfillment.address"
+                    :address="fulfillment.address"
                     data-test-id="address-block" />
 
                 <form-selector
                     :order-method="serviceType"
-                    :times="times"
+                    :times="fulfillment.times"
                     data-test-id="selector" />
 
                 <user-note data-test-id="user-note" />
@@ -91,7 +90,7 @@ import '@justeat/f-error-message/dist/f-error-message.css';
 import FormField from '@justeat/f-form-field';
 import '@justeat/f-form-field/dist/f-form-field.css';
 
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import AddressBlock from './Address.vue';
 import FormSelector from './Selector.vue';
 import UserNote from './UserNote.vue';
@@ -141,23 +140,8 @@ export default {
     data () {
         return {
             tenantConfigs,
-            firstName: '',
-            mobileNumber: null,
-            address: {
-                line1: null,
-                line2: null,
-                city: null,
-                postcode: null
-            },
             genericErrorMessage: null,
-            shouldDisableCheckoutButton: false,
-            checkoutId: '',
-            isFulfillable: true,
-            times: [],
-            messages: [],
-            notes: [],
-            notices: [],
-            serviceType: this.checkoutMethod
+            shouldDisableCheckoutButton: false
         };
     },
 
@@ -177,12 +161,19 @@ export default {
     },
 
     computed: {
-        ...mapState([
-            'isMcDonalds'
+        ...mapState('checkout', [
+            'id',
+            'serviceType',
+            'customer',
+            'fulfillment',
+            'notes',
+            'isFulfillable',
+            'notices',
+            'messages'
         ]),
 
         name () {
-            return (this.firstName.charAt(0).toUpperCase() + this.firstName.slice(1));
+            return (this.customer.firstName.charAt(0).toUpperCase() + this.customer.firstName.slice(1));
         },
 
         title () {
@@ -220,16 +211,26 @@ export default {
     },
 
     created () {
-        // Register the new module dynamically
-        this.$store.registerModule('checkout', checkoutModule);
+        if (!this.$store.hasModule('checkout')) {
+            this.$store.registerModule('checkout', checkoutModule);
+        }
     },
 
     beforeDestroy () {
-        // Unregister the dynamically created module
-        this.$store.unregisterModule('checkout');
+        /*
+            TODO: in the future, we should actually try to deregister modules.
+            However, right now, given we might have several instances of the same component, we don't want to remove the module for all of them.
+            We tried generating a dynamic module name (so we could add and remove a module per component),
+            but we couldn't get it to work. It needs more investigation when this is really needed, not now.
+        */
+        // this.$store.unregisterModule('checkout');
     },
 
     methods: {
+        ...mapActions('checkout', [
+            'getCheckoutDetails'
+        ]),
+
         async callCheckoutServiceApi () {
             /*
             * Add user data to `checkoutData` and submit to Checkout endpoint
@@ -250,11 +251,15 @@ export default {
 
         async getCheckout () {
             try {
-                const result = await CheckoutServiceApi.getCheckout(this.checkoutUrl, this.tenant, this.getCheckoutTimeout);
-                this.$emit(EventNames.CheckoutGetSuccess);
-                this.mapResponse(result.data);
+                await this.getCheckoutDetails({
+                    url: this.checkoutUrl,
+                    tenant: this.tenant,
+                    timeout: this.getCheckoutTimeout
+                });
+
+                this.$emit(EventNames.CheckoutGetSuccess); // TODO: Check these emitted events.
             } catch (thrownErrors) {
-                this.$emit(EventNames.CheckoutGetFailure, thrownErrors);
+                this.$emit(EventNames.CheckoutGetFailure, thrownErrors); // TODO: Check these emitted events.
             }
         },
 
@@ -309,28 +314,6 @@ export default {
             */
             this.$v.$touch();
             return !this.$v.$invalid;
-        },
-
-        mapResponse (data) {
-            this.checkoutId = data.id;
-            this.isFulfillable = data.isFulfillable;
-            if (data.customer) {
-                this.firstName = data.customer.firstName;
-                this.mobileNumber = data.customer.phoneNumber;
-            }
-
-            this.times = data.fulfillment.times;
-            if (data.fulfillment.address) {
-                this.address.line1 = data.fulfillment.address.lines[0];
-                this.address.line2 = data.fulfillment.address.lines[1];
-                this.address.city = data.fulfillment.address.lines[3];
-                this.address.postcode = data.fulfillment.address.postalCode;
-            }
-
-            this.messages = data.messages;
-            this.notes = data.notes;
-            this.notices = data.notices;
-            this.serviceType = data.serviceType;
         }
     },
 
