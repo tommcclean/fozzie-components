@@ -1,3 +1,5 @@
+import Vue from 'vue';
+import Vuex from 'vuex';
 import { select } from '@storybook/addon-knobs';
 import { withA11y } from '@storybook/addon-a11y';
 
@@ -13,6 +15,8 @@ import {
 
 import VueCheckout from '../src/components/Checkout.vue';
 import CheckoutMock from '../src/demo/checkoutMock';
+
+Vue.use(Vuex);
 
 const deliveryUrl = '/checkout-delivery.json';
 const collectionUrl = '/checkout-collection.json';
@@ -35,6 +39,7 @@ export const CheckoutComponent = () => ({
             default: select('Checkout Url', [deliveryUrl, collectionUrl], deliveryUrl)
         }
     },
+    store: new Vuex.Store({}),
     template:
         '<vue-checkout :checkoutUrl="checkoutUrl" :locale="locale" />'
 });

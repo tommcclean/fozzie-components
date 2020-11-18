@@ -1,4 +1,5 @@
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
+import Vuex from 'vuex';
 import { VueI18n } from '@justeat/f-globalisation';
 import { VALID_CHECKOUT_METHOD, CHECKOUT_METHOD_DELIVERY, CHECKOUT_METHOD_COLLECTION } from '../../constants';
 import VueCheckout from '../Checkout.vue';
@@ -12,6 +13,9 @@ jest.mock('../../services/CheckoutServiceApi', () => ({ submitCheckout: jest.fn(
 const localVue = createLocalVue();
 
 localVue.use(VueI18n);
+localVue.use(Vuex);
+
+let store;
 
 const defaultCheckoutGetData = {
     customer: {
@@ -36,11 +40,16 @@ describe('Checkout', () => {
     allure.feature('Checkout');
     const checkoutUrl = 'http://localhost/account/register';
 
+    beforeEach(() => {
+        store = new Vuex.Store({});
+    });
+
     it('should be defined', () => {
         const propsData = { checkoutUrl };
 
         const wrapper = shallowMount(VueCheckout, {
             i18n,
+            store,
             localVue,
             propsData
         });
@@ -62,6 +71,7 @@ describe('Checkout', () => {
 
                 // Act
                 const wrapper = shallowMount(VueCheckout, {
+                    store,
                     i18n,
                     localVue,
                     propsData
@@ -88,6 +98,7 @@ describe('Checkout', () => {
 
                 // Act
                 const wrapper = shallowMount(VueCheckout, {
+                    store,
                     i18n,
                     localVue,
                     propsData
@@ -114,6 +125,7 @@ describe('Checkout', () => {
 
                 // Act
                 const wrapper = shallowMount(VueCheckout, {
+                    store,
                     i18n,
                     localVue,
                     propsData
@@ -138,6 +150,7 @@ describe('Checkout', () => {
             it('should capitalize `firstName` data', async () => {
                 // Arrange
                 const wrapper = shallowMount(VueCheckout, {
+                    store,
                     i18n,
                     localVue,
                     propsData
@@ -158,6 +171,7 @@ describe('Checkout', () => {
             it('should add `name` to title text', async () => {
                 // Arrange
                 const wrapper = shallowMount(VueCheckout, {
+                    store,
                     i18n,
                     localVue,
                     propsData
@@ -196,6 +210,7 @@ describe('Checkout', () => {
                 CheckoutServiceApi.getCheckout.mockImplementation(async () => Promise.resolve({ data: { ...defaultCheckoutGetData, serviceType: CHECKOUT_METHOD_COLLECTION } }));
 
                 wrapper = mount(VueCheckout, {
+                    store,
                     i18n,
                     localVue,
                     propsData
@@ -291,6 +306,7 @@ describe('Checkout', () => {
                 CheckoutServiceApi.getCheckout.mockImplementation(async () => Promise.resolve({ data: { ...defaultCheckoutGetData, serviceType: CHECKOUT_METHOD_DELIVERY } }));
 
                 wrapper = mount(VueCheckout, {
+                    store,
                     i18n,
                     localVue,
                     propsData
@@ -400,6 +416,7 @@ describe('Checkout', () => {
                 CheckoutServiceApi.getCheckout.mockImplementation(async () => Promise.reject());
 
                 wrapper = mount(VueCheckout, {
+                    store,
                     i18n,
                     localVue,
                     propsData
@@ -422,6 +439,7 @@ describe('Checkout', () => {
                 CheckoutServiceApi.getCheckout.mockImplementation(async () => Promise.resolve({ data: CheckoutGetMockData }));
 
                 wrapper = mount(VueCheckout, {
+                    store,
                     i18n,
                     localVue,
                     propsData

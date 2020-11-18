@@ -91,6 +91,7 @@ import '@justeat/f-error-message/dist/f-error-message.css';
 import FormField from '@justeat/f-form-field';
 import '@justeat/f-form-field/dist/f-form-field.css';
 
+import { mapState } from 'vuex';
 import AddressBlock from './Address.vue';
 import FormSelector from './Selector.vue';
 import UserNote from './UserNote.vue';
@@ -99,6 +100,8 @@ import { CHECKOUT_METHOD_DELIVERY, TENANT_MAP } from '../constants';
 import tenantConfigs from '../tenants';
 import CheckoutServiceApi from '../services/CheckoutServiceApi';
 import EventNames from '../event-names';
+
+import checkoutModule from '../store/checkout.module';
 
 export default {
     name: 'VueCheckout',
@@ -174,6 +177,10 @@ export default {
     },
 
     computed: {
+        ...mapState([
+            'isMcDonalds'
+        ]),
+
         name () {
             return (this.firstName.charAt(0).toUpperCase() + this.firstName.slice(1));
         },
@@ -210,6 +217,16 @@ export default {
 
     async mounted () {
         await this.getCheckout();
+    },
+
+    created () {
+        // Register the new module dynamically
+        this.$store.registerModule('checkout', checkoutModule);
+    },
+
+    beforeDestroy () {
+        // Unregister the dynamically created module
+        this.$store.unregisterModule('checkout');
     },
 
     methods: {
