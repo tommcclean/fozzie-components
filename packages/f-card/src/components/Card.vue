@@ -14,7 +14,7 @@
                 $style['c-card-heading'],
                 (cardHeadingPosition !== 'left' ? $style[`c-card--${cardHeadingPosition}`] : '')
             ]"
-            data-test="card-heading"
+            data-test-id="card-heading"
         >
             {{ cardHeading }}
         </h1>
@@ -78,7 +78,7 @@ $card-borderColor                         : $color-border;
 $card-borderRadius                        : $border-radius;
 $card-padding                             : spacing(x2);
 
-$card--pageContentWrapper-width           : 460px;
+$card--pageContentWrapper-width           : 472px; // so that it falls on our 8px spacing grid
 
 .c-card {
     background-color: $card-bgColor;

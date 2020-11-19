@@ -12,7 +12,10 @@
             <bag-celebrate-icon :class="$style['c-registration-icon']" />
             <p
                 v-if="showLoginLink"
-                :class="$style['c-registration-link']"
+                :class="[
+                    $style['c-registration-link'],
+                    $style['c-registration-link--subtitle']
+                ]"
                 data-test-id="create-account-login-link"
                 @click="visitLoginPage">
                 <a :href="copy.navLinks.login.url">{{ copy.navLinks.login.text }}</a>
@@ -42,17 +45,17 @@
                     <template #error>
                         <error-message
                             v-if="shouldShowFirstNameRequiredError"
-                            data-test-title='error-first-name-empty'>
+                            data-test-id='error-first-name-empty'>
                             {{ copy.validationMessages.firstName.requiredError }}
                         </error-message>
                         <error-message
                             v-if="shouldShowFirstNameMaxLengthError"
-                            data-test-title='error-first-name-maxlength'>
+                            data-test-id='error-first-name-maxlength'>
                             {{ copy.validationMessages.firstName.maxLengthError }}
                         </error-message>
                         <error-message
                             v-if="shouldShowFirstNameInvalidCharError"
-                            data-test-title='error-first-name-invalid'>
+                            data-test-id='error-first-name-invalid'>
                             {{ copy.validationMessages.firstName.invalidCharError }}
                         </error-message>
                     </template>
@@ -68,17 +71,17 @@
                     <template #error>
                         <error-message
                             v-if="shouldShowLastNameRequiredError"
-                            data-test-title='error-last-name-empty'>
+                            data-test-id='error-last-name-empty'>
                             {{ copy.validationMessages.lastName.requiredError }}
                         </error-message>
                         <error-message
                             v-if="shouldShowLastNameMaxLengthError"
-                            data-test-title='error-last-name-maxlength'>
+                            data-test-id='error-last-name-maxlength'>
                             {{ copy.validationMessages.lastName.maxLengthError }}
                         </error-message>
                         <error-message
                             v-if="shouldShowLastNameInvalidCharError"
-                            data-test-title='error-last-name-invalid'>
+                            data-test-id='error-last-name-invalid'>
                             {{ copy.validationMessages.lastName.invalidCharError }}
                         </error-message>
                     </template>
@@ -94,22 +97,22 @@
                     <template #error>
                         <error-message
                             v-if="shouldShowEmailRequiredError"
-                            data-test-title='error-email-empty'>
+                            data-test-id='error-email-empty'>
                             {{ copy.validationMessages.email.requiredError }}
                         </error-message>
                         <error-message
                             v-else-if="shouldShowEmailInvalidError"
-                            data-test-title='error-email-invalid'>
+                            data-test-id='error-email-invalid'>
                             {{ copy.validationMessages.email.invalidEmailError }}
                         </error-message>
                         <error-message
                             v-if="shouldShowEmailMaxLengthError"
-                            data-test-title='error-email-maxlength'>
+                            data-test-id='error-email-maxlength'>
                             {{ copy.validationMessages.email.maxLengthError }}
                         </error-message>
                         <error-message
                             v-else-if="shouldShowEmailAlreadyExistsError"
-                            data-test-title='error-email-exists'>
+                            data-test-id='error-email-exists'>
                             {{ copy.validationMessages.email.alreadyExistsError }}
                         </error-message>
                     </template>
@@ -125,12 +128,12 @@
                     <template #error>
                         <error-message
                             v-if="shouldShowPasswordRequiredError"
-                            data-test-title='error-password-empty'>
+                            data-test-id='error-password-empty'>
                             {{ copy.validationMessages.password.requiredError }}
                         </error-message>
                         <error-message
                             v-if="shouldShowPasswordMinLengthError"
-                            data-test-title='error-password-minlength'>
+                            data-test-id='error-password-minlength'>
                             {{ copy.validationMessages.password.minLengthError }}
                         </error-message>
                     </template>
@@ -440,16 +443,23 @@ $registration-icon-height--narrow : 74px;
 
 // Form styling
 .c-registration {
-    margin-top: 100px;
+    margin-top: 112px;
 }
 
     .c-registration-card {
         position: relative;
-        padding-top: spacing(x5);
+        padding-top: spacing(x7);
         padding-bottom: spacing(x6);
 
         @include media('<mid') {
             padding-bottom: spacing(x4);
+        }
+
+        @include media('>=narrow') {
+            // TODO: box shadow value will eventually come from PIE design tokens, but hard coding here for now
+            box-shadow: 0 1px 1px 0 rgba($black, 0.03),
+                    0 2px 1px -1px rgba($black, 0.07),
+                    0 1px 3px 0 rgba($black, 0.06);
         }
     }
 
@@ -468,12 +478,12 @@ $registration-icon-height--narrow : 74px;
     }
 
     .c-registration-form {
-        margin-top: spacing(x2);
+        margin-top: spacing(x3);
     }
 
     .c-registration-submit {
         margin-top: spacing(x4);
-        margin-bottom: spacing(x3);
+        margin-bottom: spacing(x4);
     }
 
     .c-registration-link {
@@ -490,5 +500,9 @@ $registration-icon-height--narrow : 74px;
             }
         }
     }
+
+        .c-registration-link--subtitle {
+            margin-top: - spacing(); // shift the subtitle link closer to the main title
+        }
 
 </style>
