@@ -4,11 +4,6 @@ import { select } from '@storybook/addon-knobs';
 import { withA11y } from '@storybook/addon-a11y';
 
 import {
-    VALID_CHECKOUT_METHOD,
-    CHECKOUT_METHOD_DELIVERY
-} from '../src/constants';
-
-import {
     VALID_LOCALES,
     ENGLISH_LOCALE
 } from '../../storybook/constants/globalisation';
