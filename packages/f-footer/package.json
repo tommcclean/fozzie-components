@@ -36,7 +36,7 @@
     "test-component:chrome": "run-p --race demo webdriver:delay:chrome || exit 0",
     "test:wait-for-server": "node ../../test/infrastructure/healthcheck.js",
     "webdriver:delay:chrome": "yarn test:wait-for-server && yarn webdriver:start:chrome || exit 0",
-    "webdriver:start:chrome": "wdio ../../wdio.conf.js",
+    "webdriver:start:chrome": "wdio ../../wdio.conf.js"
   },
   "scriptsInfo": {
     "test-component:chrome": "Runs the functional test suite against Chrome.",
