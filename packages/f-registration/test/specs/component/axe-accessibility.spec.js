@@ -2,10 +2,10 @@ import { getAccessibilityTestResults, processResults } from '../../../../../test
 import RegistrationComponent from '../../../test-utils/component-objects/f-registration.component';
 
 describe('Accessibility tests', () => {
-    beforeEach(() => {
-        // Arrange
-        browser.url('http://localhost:8080');
-    });
+    // beforeEach(() => {
+    //     // Arrange
+    //     browser.url('http://localhost:8080');
+    // });
 
     it('a11y - should test f-registration component WCAG compliance', () => {
         // Act

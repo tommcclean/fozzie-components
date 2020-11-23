@@ -1,11 +1,11 @@
 import FormFieldComponent from '../../../test-utils/component-objects/f-form-field.component';
 
 describe('f-form-field component tests', () => {
-    beforeEach(() => {
-        // Arrange
-        browser.url('http://localhost:8080');
-        FormFieldComponent.waitForFormField();
-    });
+    // beforeEach(() => {
+    //     // Arrange
+    //     browser.url('http://localhost:8080');
+    //     FormFieldComponent.waitForFormField();
+    // });
 
     it('should display f-form-field', () => {
         // Assert

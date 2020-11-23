@@ -1,11 +1,10 @@
 import FooterComponent from '../../../test-utils/component-objects/f-footer.component';
 
 describe('f-footer component tests', () => {
-    beforeEach(() => {
-        // Arrange
-        browser.url('http://localhost:8080');
-        FooterComponent.waitForFooter();
-    });
+    // beforeEach(() => {
+    //     // Arrange
+    //     browser.url('http://localhost:8080');
+    // });
 
     it('should display the footer', () => {
         //Assert
@@ -35,6 +34,9 @@ describe('f-footer component tests', () => {
     });
 
     it('should display Social Media Icons', () => {
+        // //Act
+        // browser.back();
+
         //Assert
         expect(FooterComponent.isTwitterIconDisplayed()).toBe(true);
         expect(FooterComponent.isInstagramIconDisplayed()).toBe(true);

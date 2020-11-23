@@ -1,10 +1,10 @@
 import RegistrationComponent from '../../../test-utils/component-objects/f-registration.component';
 
 describe('f-registration component tests', () => {
-    beforeEach(() => {
-        // Arrange
-        browser.url('http://localhost:8080');
-    });
+    // beforeEach(() => {
+    //     // Arrange
+    //     browser.url('http://localhost:8080');
+    // });
 
     it.only('should display errors if mandatory fields are empty', () => {
         // Arrange

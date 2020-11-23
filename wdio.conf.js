@@ -131,7 +131,7 @@ exports.config = {
             videoSlowdownMultiplier: 3 // Higher to get slower videos, lower for faster videos [Value 1-100]
         }],
         ['allure', {
-            outputDir: 'allure-results',
+            outputDir: '../../allure-results',
             disableWebdriverStepsReporting: false,
             disableWebdriverScreenshotsReporting: false
         }]
@@ -205,20 +205,21 @@ exports.config = {
      * Hook that gets executed before the suite starts
      * @param {Object} suite suite details
      */
-    beforeSuite: function (suite) {
-        browser.url('http://localhost:8080');
-    },
+    // beforeSuite: function (suite) {
+    //     browser.url('http://localhost:8080');
+    // },
     /**
      * Function to be executed before a test (in Mocha/Jasmine) starts.
      */
-    // beforeTest: function (test, context) {
-       
-    // },
+    beforeTest: function (test, context) {
+        browser.url('http://localhost:8080');
+    },
     /**
      * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
      * beforeEach in Mocha)
      */
     // beforeHook: function (test, context) {
+    //     browser.url('http://localhost:8080');
     // },
     /**
      * Hook that gets executed _after_ a hook within the suite starts (e.g. runs after calling
