@@ -78,7 +78,7 @@ export default {
 
         showDeliveryEnquiry: {
             type: Boolean,
-            default: false
+            default: true
         },
 
         showLoginInfo: {
