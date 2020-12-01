@@ -263,7 +263,7 @@ describe('Checkout', () => {
                 expect(wrapper.vm.isMobileNumberValid).toBe(false);
                 expect(mobileNumberEmptyMessage).toMatchSnapshot();
                 expect(wrapper.emitted(EventNames.CheckoutFailure).length).toBe(1);
-                expect(wrapper.emitted(EventNames.CheckoutFailure)[0][0].invalidFields).toContain('customer');
+                expect(wrapper.emitted(EventNames.CheckoutFailure)[0][0].invalidFields).toContain('customer.mobileNumber');
             });
 
             it('should show error message and emit failure event when the mobile number field is populated with a < 10 numbers', async () => {
@@ -278,7 +278,7 @@ describe('Checkout', () => {
                 expect(wrapper.vm.isMobileNumberValid).toBe(false);
                 expect(mobileNumberEmptyMessage).toMatchSnapshot();
                 expect(wrapper.emitted(EventNames.CheckoutFailure).length).toBe(1);
-                expect(wrapper.emitted(EventNames.CheckoutFailure)[0][0].invalidFields).toContain('customer');
+                expect(wrapper.emitted(EventNames.CheckoutFailure)[0][0].invalidFields).toContain('customer.mobileNumber');
             });
 
             it('should show error message and emit failure event when the mobile number field is populated with non numeric value', async () => {
@@ -293,7 +293,7 @@ describe('Checkout', () => {
                 expect(wrapper.vm.isMobileNumberValid).toBe(false);
                 expect(mobileNumberEmptyMessage).toMatchSnapshot();
                 expect(wrapper.emitted(EventNames.CheckoutFailure).length).toBe(1);
-                expect(wrapper.emitted(EventNames.CheckoutFailure)[0][0].invalidFields).toContain('customer');
+                expect(wrapper.emitted(EventNames.CheckoutFailure)[0][0].invalidFields).toContain('customer.mobileNumber');
             });
 
             it('should not create validations for address', () => {
@@ -352,7 +352,7 @@ describe('Checkout', () => {
                 // Assert
                 expect(addressLine1EmptyMessage).toMatchSnapshot();
                 expect(wrapper.emitted(EventNames.CheckoutFailure).length).toBe(1);
-                expect(wrapper.emitted(EventNames.CheckoutFailure)[0][0].invalidFields).toContain('fulfillment');
+                expect(wrapper.emitted(EventNames.CheckoutFailure)[0][0].invalidFields).toContain('fulfillment.address.line1');
             });
 
             it('should emit failure event and display error message when city input field is empty', async () => {
@@ -363,7 +363,7 @@ describe('Checkout', () => {
                 // Assert
                 expect(addressCityEmptyMessage).toMatchSnapshot();
                 expect(wrapper.emitted(EventNames.CheckoutFailure).length).toBe(1);
-                expect(wrapper.emitted(EventNames.CheckoutFailure)[0][0].invalidFields).toContain('fulfillment');
+                expect(wrapper.emitted(EventNames.CheckoutFailure)[0][0].invalidFields).toContain('fulfillment.address.city');
             });
 
             it('should emit failure event and display error message when postcode input field is empty', async () => {
@@ -374,7 +374,7 @@ describe('Checkout', () => {
                 // Assert
                 expect(addressPostcodeEmptyMessage).toMatchSnapshot();
                 expect(wrapper.emitted(EventNames.CheckoutFailure).length).toBe(1);
-                expect(wrapper.emitted(EventNames.CheckoutFailure)[0][0].invalidFields).toContain('fulfillment');
+                expect(wrapper.emitted(EventNames.CheckoutFailure)[0][0].invalidFields).toContain('fulfillment.address.postcode');
             });
 
             it('should emit failure event and display error message when postcode contains incorrect characters', async () => {
@@ -388,7 +388,7 @@ describe('Checkout', () => {
                 // Assert
                 expect(addressPostcodeTypeErrorMessage).toMatchSnapshot();
                 expect(wrapper.emitted(EventNames.CheckoutFailure).length).toBe(1);
-                expect(wrapper.emitted(EventNames.CheckoutFailure)[0][0].invalidFields).toContain('fulfillment');
+                expect(wrapper.emitted(EventNames.CheckoutFailure)[0][0].invalidFields).toContain('fulfillment.address.postcode');
             });
 
 
@@ -403,7 +403,7 @@ describe('Checkout', () => {
                 // Assert
                 expect(addressPostcodeTypeErrorMessage).toMatchSnapshot();
                 expect(wrapper.emitted(EventNames.CheckoutFailure).length).toBe(1);
-                expect(wrapper.emitted(EventNames.CheckoutFailure)[0][0].invalidFields).toContain('fulfillment');
+                expect(wrapper.emitted(EventNames.CheckoutFailure)[0][0].invalidFields).toContain('fulfillment.address.postcode');
             });
 
             it('should create validations for address', () => {
