@@ -3,6 +3,20 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+v0.44.0
+------------------------------
+*December 9, 2020*
+
+### Added
+- 'loginUrl' prop so that returnUrl is not lost when clicking 'Already on Just Eat'
+
+### Changed
+- Updated storybook to include missing props
+
+### Removed
+- Unsupported tenants
+- Old localisation for loginUrl
+
 
 v0.43.3
 ------------------------------
