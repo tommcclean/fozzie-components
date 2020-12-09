@@ -18,7 +18,7 @@
                 ]"
                 data-test-id="create-account-login-link"
                 @click="visitLoginPage">
-                <a :href="copy.navLinks.login.url">{{ copy.navLinks.login.text }}</a>
+                <a :href="loginUrl">{{ copy.navLinks.login.text }}</a>
             </p>
             <form
                 type="post"
@@ -245,6 +245,10 @@ export default {
         showLoginLink: {
             type: Boolean,
             default: true
+        },
+        loginUrl: {
+            type: String,
+            required: true
         }
     },
 
