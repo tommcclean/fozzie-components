@@ -1,6 +1,6 @@
-import { withKnobs, select, text } from '@storybook/addon-knobs';
-import Registration from '../src/components/Registration.vue';
+import { withKnobs, select, text, boolean } from '@storybook/addon-knobs';
 import { withA11y } from '@storybook/addon-a11y';
+import Registration from '../src/components/Registration.vue';
 
 export default {
     title: 'Components/Organisms',
@@ -18,12 +18,24 @@ export const RegistrationComponent = () => ({
         },
         buttonText: {
             default: text('Button Text', 'Create Account')
+        },
+        showLoginLink: {
+            default: boolean('Show Login Link', true)
+        },
+        loginUrl: {
+            default: text('Login URL', '/account/register')
         }
     },
     parameters: {
         notes: 'some documentation here'
     },
-    template: '<registration :locale="locale" :title="title" :button-text="buttonText" />'
+    template: `
+        <registration
+            :locale="locale"
+            :title="title"
+            :button-text="buttonText"
+            :show-login-link="showLoginLink"
+            :login-url="loginUrl" />`
 });
 
 RegistrationComponent.storyName = 'f-registration';
