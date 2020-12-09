@@ -244,7 +244,7 @@ export default {
         },
         showLoginLink: {
             type: Boolean,
-            default: true
+            required: true
         },
         loginUrl: {
             type: String,
