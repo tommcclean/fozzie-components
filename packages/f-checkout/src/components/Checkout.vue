@@ -25,7 +25,6 @@
                 <form-field
                     v-model="customer.mobileNumber"
                     name="mobile-number"
-                    data-test-id="input-mobile-number"
                     :label-text="$t('labels.mobileNumber')"
                     :has-error="!isMobileNumberValid">
                     <template #error>
@@ -41,7 +40,7 @@
                     v-if="isCheckoutMethodDelivery"
                     data-test-id="address-block" />
 
-                <form-selector data-test-id="selector" />
+                <form-selector/>
 
                 <user-note data-test-id="user-note" />
 
@@ -328,6 +327,14 @@ export default {
         */
         isValidPhoneNumber () {
             return validations.isValidPhoneNumber(this.customer.mobileNumber, this.$i18n.locale);
+        },
+
+        /*
+        * Use postcode validation in `f-services` to check if customer postcode is
+        * valid in current locale
+        */
+        isValidPostcode () {
+            return validations.isValidPostcode(this.fulfillment.address.postcode, this.$i18n.locale);
         }
     },
 
@@ -352,7 +359,7 @@ export default {
                     },
                     postcode: {
                         required,
-                        isValidPostcode: validations.isValidPostcode
+                        isValidPostcode: this.isValidPostcode
                     }
                 }
             };

@@ -3,10 +3,28 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-
-Latest (to be added to next release)
+v2.22.1
 ------------------------------
-*December 4, 2020*
+*December 8, 2020*
+
+### Changed
+- Loglevel in `wdio.conf` to silent for less terminal-logging.
+
+
+v2.22.0
+------------------------------
+*December 7, 2020*
+
+### Fixed
+- Eslint ignore error for newlines around `option` tags.
+
+
+v2.21.1
+------------------------------
+*December 7, 2020*
+
+### Fixed
+- Broken test helper function.
 
 ### Added
 - Colour-coding to success and fail messages
