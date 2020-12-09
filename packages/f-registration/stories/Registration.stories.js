@@ -16,6 +16,9 @@ export const RegistrationComponent = () => ({
         title: {
             default: text('Title', 'Create Account')
         },
+        createAccountUrl: {
+            default: text('Create Account URL', '/account/register')
+        },
         buttonText: {
             default: text('Button Text', 'Create Account')
         },
@@ -34,6 +37,7 @@ export const RegistrationComponent = () => ({
             :locale="locale"
             :title="title"
             :button-text="buttonText"
+            :create-account-url="createAccountUrl"
             :show-login-link="showLoginLink"
             :login-url="loginUrl" />`
 });
