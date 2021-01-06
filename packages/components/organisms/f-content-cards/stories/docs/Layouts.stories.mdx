@@ -1,0 +1,11 @@
+import { Canvas, Story, Meta } from '@storybook/addon-docs/blocks';
+import { ContentCards, VoucherCard } from '../../src';
+import ContentCardsGrouped from "../templates/ContentCardsGrouped";
+
+<Meta title="MDX/f-content-cards/Layouts" component={ContentCards} />
+
+<Canvas>
+    <Story name="Grouped Cards">
+        {ContentCardsGrouped.bind({})}
+    </Story>
+</Canvas>

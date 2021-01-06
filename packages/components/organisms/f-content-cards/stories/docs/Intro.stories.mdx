@@ -1,0 +1,56 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { ContentCards } from '../../src';
+
+<Meta title="MDX/f-content-cards/Introduction" component={ContentCards} />
+
+# Getting Started
+
+Content Cards component is a render-less component alongside multiple smaller card components, designed to provide
+a base for handling content cards provided by the Braze SDK or via custom cards in prop format. Included in the package
+is the render-less component `ContentCards`, the following cards types:
+
+1. GroupHeaderCard
+2. VoucherCard
+3. FirstTimeCustomerCard
+4. PromotionCard
+5. HomeContentCard1
+6. HomeContentCard2
+7. TermsAndConditionsCard
+8. PostOrderCard
+
+and `CARDSOURCE_METADATA` plus `CARDSOURCE_CUSTOM` constants.
+
+
+## Installation
+
+To install the package you can do `yarn add @justeat/f-content-cards` where ever you wish to use the component. After
+installing, you can import the relevant packages like below.
+```
+import { ContentCards, VoucherCard, PromotionCard } from @justeat/f-content-cards
+```
+
+## Basic Setup
+
+To get started with the `ContentCards` component you can use the following example as a starting point.
+```
+<template>
+    <content-cards
+        #default="{ cards }"
+        :user-id="userId"
+        :api-key="apiKey"
+        :locale="locale"
+    >
+        CARDS GO HERE
+    </content-cards>
+</template>
+
+<script>
+export default {
+    name: 'demo',
+    components: {
+        ContentCards
+    }
+    ...
+}
+</script>
+```

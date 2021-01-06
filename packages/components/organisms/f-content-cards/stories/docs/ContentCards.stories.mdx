@@ -1,0 +1,39 @@
+import { Canvas, Story, Meta, ArgsTable } from '@storybook/addon-docs/blocks';
+import { ContentCards, VoucherCard } from '../../src';
+import ContentCardsSetup from "../templates/ContentCardsSetup";
+
+<Meta title="MDX/f-content-cards" component={ContentCards} />
+
+
+# Initial Setup
+
+Initial setup of the renderless component `ContentCards` requires 3 props to be provided. The apiKey for braze SDk, the
+user ID of the logged-in user and the current locale to set the tenant.
+
+<Canvas>
+    <Story
+        name="Base"
+        argTypes={{
+            apiKey: {
+                description: 'Braze API Key for the appboy SDK'
+            },
+            userId: {
+                description: 'The User ID'
+            },
+            locale: {
+                description: 'Valid i18n code'
+            }
+        }}
+        args={{
+            apiKey: '00000000-0000-0000-0000-000000000000',
+            userId: 'test-user-id',
+            locale: 'en-GB',
+        }}
+    >
+        {ContentCardsSetup.bind({})}
+    </Story>
+</Canvas>
+
+### Accepted Props
+
+<ArgsTable story="Base" />
