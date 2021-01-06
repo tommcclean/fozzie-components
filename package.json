@@ -23,7 +23,7 @@
     "local:tests": "yarn test && yarn test-component:chrome"
   },
   "resolutions": {
-    "webpack": "4.36.0"
+    "webpack": "4.44.2"
   },
   "devDependencies": {
     "@babel/cli": "7.10.5",
