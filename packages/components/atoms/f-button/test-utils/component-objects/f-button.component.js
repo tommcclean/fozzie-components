@@ -1,5 +1,20 @@
-const buttonComponent = () => $('[data-test-id="action-button-component"]');
+const Page = require('@justeat/f-wdio-utils/src/page.object')
 
-exports.waitForButtonComponent = () => buttonComponent().waitForExist();
+class Button extends Page {
 
-exports.isButtonComponentDisplayed = () => buttonComponent().isDisplayed();
+    get component () { return $('[data-test-id="action-button-component"]') }
+
+    open(){
+        super.openComponent('atom', 'button-component');
+    }
+
+    waitForComponent(){
+        this.component.waitForExist();
+    }
+
+    isComponentDisplayed(){
+        return this.component.isDisplayed();
+    }
+}
+
+module.exports = Button;
