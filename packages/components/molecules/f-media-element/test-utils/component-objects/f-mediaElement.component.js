@@ -1,5 +1,20 @@
-const mediaElementComponent = () => $('[data-test-id="mediaElement-component"]');
+const Page = require('@justeat/f-wdio-utils/src/page.object');
 
-exports.waitForMediaElementComponent = () => mediaElementComponent().waitForExist();
+class MediaElement extends Page {
 
-exports.isMediaElementComponentDisplayed = () => mediaElementComponent().isDisplayed();
+    get component () { return $('[data-test-id="mediaElement-component"]'); }
+
+    open(){
+        super.openComponent('molecule', 'media-element-component');
+    }
+
+    waitForComponent(){
+        super.waitForComponent(this.component);
+    }
+
+    isComponentDisplayed(){
+        return this.component.isDisplayed();
+    }
+}
+
+module.exports = MediaElement;
