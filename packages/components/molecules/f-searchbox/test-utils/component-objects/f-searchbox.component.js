@@ -1,6 +1,6 @@
 const Page = require('@justeat/f-wdio-utils/src/page.object');
 
-class SearchBox extends Page {
+module.exports = class SearchBox extends Page {
 
     get component () { return $('[data-test-id="searchbox-component"]'); }
 
@@ -16,5 +16,3 @@ class SearchBox extends Page {
         this.component.isDisplayed();
     }
 }
-
-module.exports = SearchBox;

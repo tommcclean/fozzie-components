@@ -1,6 +1,6 @@
 const Page = require('@justeat/f-wdio-utils/src/page.object')
 
-class Button extends Page {
+module.exports = class Button extends Page {
 
     get component () { return $('[data-test-id="action-button-component"]') }
 
@@ -16,5 +16,3 @@ class Button extends Page {
         return this.component.isDisplayed();
     }
 }
-
-module.exports = Button;

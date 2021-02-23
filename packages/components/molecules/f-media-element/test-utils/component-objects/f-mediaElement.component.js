@@ -1,6 +1,6 @@
 const Page = require('@justeat/f-wdio-utils/src/page.object');
 
-class MediaElement extends Page {
+module.exports = class MediaElement extends Page {
 
     get component () { return $('[data-test-id="mediaElement-component"]'); }
 
@@ -16,5 +16,3 @@ class MediaElement extends Page {
         return this.component.isDisplayed();
     }
 }
-
-module.exports = MediaElement;

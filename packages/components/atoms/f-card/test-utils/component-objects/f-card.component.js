@@ -1,6 +1,6 @@
 const Page = require('@justeat/f-wdio-utils/src/page.object')
 
-class Card extends Page {
+module.exports = class Card extends Page {
 
     get component () { return $('[data-test-id="card-component"]') }
 
@@ -16,5 +16,3 @@ class Card extends Page {
         return this.component.isDisplayed();
     }
 }
-
-module.exports = Card;

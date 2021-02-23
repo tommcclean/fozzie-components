@@ -1,6 +1,6 @@
 const Page = require('@justeat/f-wdio-utils/src/page.object');
 
-class Alert extends Page {
+module.exports = class Alert extends Page {
 
     get component () { return $('[data-test-id="alert-component"]') }
     get exitButton () { return $('[data-test-id="alert-dismiss"]') }
@@ -21,5 +21,3 @@ class Alert extends Page {
         this.exitButton.click();
     }
 }
-
-module.exports = Alert;

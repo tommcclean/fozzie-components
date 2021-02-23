@@ -1,6 +1,6 @@
 const Page = require('@justeat/f-wdio-utils/src/page.object');
 
-class UserMessage extends Page {
+module.exports = class UserMessage extends Page {
 
     get component () { return $('[data-test-id="user-message-component"]') }
     get content () { return this.component.$('[data-test-id="user-message-content"]') }
@@ -23,5 +23,3 @@ class UserMessage extends Page {
         return this.content.isDisplayed() && messageContent.length > 0;
     }
 }
-
-module.exports = UserMessage;

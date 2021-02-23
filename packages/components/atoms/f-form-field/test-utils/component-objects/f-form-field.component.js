@@ -1,6 +1,6 @@
 const Page = require('@justeat/f-wdio-utils/src/page.object')
 
-class FormField extends Page {
+module.exports = class FormField extends Page {
 
     get component () { return $('[data-test-id="formfield-container"]') }
     get label () { return $('[data-test-id="formfield-label"]') }
@@ -21,7 +21,6 @@ class FormField extends Page {
     isLabelDisplayed(){
         return this.label.isDisplayed();
     }
-
     /**
     * @param {Object} userInput
     * @param {String} userInput.firstName The user's first name
@@ -37,5 +36,3 @@ class FormField extends Page {
         value.isDisplayed();
     }
 }
-
-module.exports = FormField
