@@ -1,5 +1,20 @@
-const searchboxComponent = () => $('[data-test-id="searchbox-component"]');
+const Page = require('@justeat/f-wdio-utils/src/page.object');
 
-exports.waitForSearchboxComponent = () => searchboxComponent().waitForExist();
+class SearchBox extends Page {
 
-exports.isSearchboxComponentDisplayed = () => searchboxComponent().isDisplayed();
+    get component () { return $('[data-test-id="searchbox-component"]'); }
+
+    open(){
+        super.openComponent('molecule', 'searchbox-component');
+    }
+
+    waitForComponent(){
+        super.waitForComponent(this.component);
+    }
+
+    isComponentDisplayed(){
+        this.component.isDisplayed();
+    }
+}
+
+module.exports = SearchBox;
