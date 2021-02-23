@@ -1,13 +1,9 @@
 const Page = require('@justeat/f-wdio-utils/src/page.object');
-const {
-    USER_MESSAGE_COMPONENT,
-    USER_MESSAGE_CONTENT
-} = require('./f-user-message-selectors');
 
 class UserMessage extends Page {
 
-    get component () { return $(USER_MESSAGE_COMPONENT) }
-    get content () { return this.component.$(USER_MESSAGE_CONTENT) }
+    get component () { return $('[data-test-id="user-message-component"]') }
+    get content () { return this.component.$('[data-test-id="user-message-content"]') }
 
     waitForComponent () {
         super.waitForComponent(this.component);
