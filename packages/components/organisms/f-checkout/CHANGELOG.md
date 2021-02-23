@@ -9,8 +9,12 @@ Latest (add to next release)
 *February 22, 2021*
 
 ### Changed
+<<<<<<< HEAD
 - Restructured component object into page object model
 - Refactored component and accessibility tests
+=======
+- Extracted svgTransform to global test utils for reference by other packages
+>>>>>>> master
 
 
 v0.58.0
