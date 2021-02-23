@@ -2,6 +2,8 @@ const messages = {
     locale: 'en-GB',
 
     labels: {
+        firstName: 'First Name',
+        lastName: 'Last Name',
         mobileNumber: 'Mobile Number',
         addressGroup: 'Address',
         line1: 'Address line 1',

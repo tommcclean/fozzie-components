@@ -36,6 +36,35 @@
                     <guest-block v-if="!isLoggedIn" />
 
                     <form-field
+                        :value="customer.firstName"
+                        name="first-name"
+                        :label-text="$t('labels.firstName')"
+                        :has-error="!isValidFirstName"
+                        @input="updateCustomerDetails({ firstName: $event })">
+                        <template #error>
+                            <error-message
+                                v-if="!isValidFirstName"
+                                data-test-id='error-first-name-invalid'>
+                                {{ $t('validationMessages.firstName.invalidCharError') }}
+                            </error-message>
+                        </template>
+                    </form-field>
+
+                    <form-field
+                        v-model="customer.lastName"
+                        name="last-name"
+                        :label-text="$t('labels.lastName')"
+                        @input="updateCustomerDetails({ 'lastName': $event })">
+                        <template #error>
+                            <!-- <error-message
+                                v-if="isLastNameEmpty"
+                                data-test-id="error-last-name-empty">
+                                {{ $t('validationMessages.lastName.requiredError') }}
+                            </error-message> -->
+                        </template>
+                    </form-field>
+
+                    <form-field
                         :value="customer.mobileNumber"
                         name="mobile-number"
                         :label-text="$t('labels.mobileNumber')"
@@ -82,7 +111,12 @@
 
 <script>
 import { validationMixin } from 'vuelidate';
-import { required, email } from 'vuelidate/lib/validators';
+import {
+    required,
+    email,
+    minLength,
+    maxLength
+} from 'vuelidate/lib/validators';
 import { mapState, mapActions } from 'vuex';
 
 import Alert from '@justeat/f-alert';
@@ -260,6 +294,10 @@ export default {
             * focus on the input field.
             */
             return !this.$v.customer.mobileNumber.$dirty || this.$v.customer.mobileNumber.isValidPhoneNumber;
+        },
+
+        isValidFirstName () {
+            return !this.$v.customer.firstName.$dirty || this.$v.customer.firstName.isValidName;
         },
 
         isCheckoutMethodDelivery () {
@@ -587,6 +625,10 @@ export default {
             return !this.$v.$invalid;
         },
 
+        isValidName () {
+            return validations.meetsCharacterValidationRules(this.customer.firstName) && this.customer.firstName.length <= 100;
+        },
+
         /*
         * Use phone validation in `f-services` to check if customer number is
         * valid in current locale
@@ -622,6 +664,10 @@ export default {
             customer: {
                 mobileNumber: {
                     isValidPhoneNumber: this.isValidPhoneNumber
+                },
+                firstName: {
+                    isValidFirstName: this.isValidName,
+                    maxLength: maxLength(100)
                 }
             }
         };
