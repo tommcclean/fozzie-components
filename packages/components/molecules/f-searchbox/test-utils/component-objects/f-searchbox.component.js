@@ -1,18 +1,17 @@
 const Page = require('@justeat/f-wdio-utils/src/page.object');
 
 module.exports = class SearchBox extends Page {
-
     get component () { return $('[data-test-id="searchbox-component"]'); }
 
-    open(){
+    open () {
         super.openComponent('molecule', 'searchbox-component');
     }
 
-    waitForComponent(){
+    waitForComponent () {
         super.waitForComponent(this.component);
     }
 
-    isComponentDisplayed(){
+    isComponentDisplayed () {
         this.component.isDisplayed();
     }
-}
+};

@@ -1,18 +1,19 @@
+/* eslint-disable no-undef */
+/* eslint-disable class-methods-use-this */
 const Page = require('@justeat/f-wdio-utils/src/page.object');
 
 module.exports = class Breadcrumbs extends Page {
+    get component () { return $('[data-test-id="breadcrumbs-component"]'); }
 
-    get component () { return $('[data-test-id="breadcrumbs-component"]') }
-
-    open(){
+    open () {
         super.openComponent('molecule', 'breadcrumbs-component');
     }
 
-    waitForComponent(){
+    waitForComponent () {
         super.waitForComponent(this.component);
     }
 
-    isComponentDisplayed(){
+    isComponentDisplayed () {
         return this.component.isDisplayed();
     }
-}
+};

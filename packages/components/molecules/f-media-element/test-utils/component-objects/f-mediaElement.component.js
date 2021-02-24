@@ -1,18 +1,19 @@
+/* eslint-disable no-undef */
+/* eslint-disable class-methods-use-this */
 const Page = require('@justeat/f-wdio-utils/src/page.object');
 
 module.exports = class MediaElement extends Page {
-
     get component () { return $('[data-test-id="mediaElement-component"]'); }
 
-    open(){
+    open () {
         super.openComponent('molecule', 'media-element-component');
     }
 
-    waitForComponent(){
+    waitForComponent () {
         super.waitForComponent(this.component);
     }
 
-    isComponentDisplayed(){
+    isComponentDisplayed () {
         return this.component.isDisplayed();
     }
-}
+};

@@ -1,4 +1,4 @@
-import { getAccessibilityTestResults } from '../../../../../../../test/utils/axe-helper';
+const { getAccessibilityTestResults } = require('../../../../../../../test/utils/axe-helper');
 const Button = require('../../../test-utils/component-objects/f-button.component');
 const button = new Button();
 
