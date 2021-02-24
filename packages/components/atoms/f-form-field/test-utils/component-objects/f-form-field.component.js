@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-undef */
 const Page = require('@justeat/f-wdio-utils/src/page.object');
 
 module.exports = class FormField extends Page {
