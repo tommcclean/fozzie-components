@@ -13,18 +13,6 @@ const {
     GUEST_CHECKOUT_LOGIN_BUTTON
 } = require('./f-checkout-selectors');
 
-<<<<<<< HEAD
-module.exports = class Checkout extends Page {
-    get component () { return $(CHECKOUT_COMPONENT); }
-    get orderTimeDropdown () { return $(ORDER_TIME_DROPDOWN); }
-    get orderTimeDropdownOptions () { return $$(ORDER_TIME_DROPDOWN_OPTIONS); }
-    get knobCheckoutDropdown () { return $(KNOB_CHECKOUT_DROPDOWN); }
-    get goToPaymentButton () { return $(GO_TO_PAYMENT_BUTTON); }
-    get knobButton () { return $(KNOB_BUTTON); }
-    get userNoteInput () { return $(USER_NOTE_INPUT); }
-    get switchUserLink () { return $(SWITCH_USER_LINK); }
-    get guestCheckoutHeader () { return $(GUEST_CHECKOUT_HEADER); }
-=======
 class Checkout extends Page {
     get component () { return $(CHECKOUT_COMPONENT); }
 
@@ -44,7 +32,6 @@ class Checkout extends Page {
 
     get guestCheckoutHeader () { return $(GUEST_CHECKOUT_HEADER); }
 
->>>>>>> master
     get guestCheckoutLoginButton () { return $(GUEST_CHECKOUT_LOGIN_BUTTON); }
 
     fields = {
@@ -101,22 +88,15 @@ class Checkout extends Page {
         let createGuestUrl = '&knob-Create%20Guest%20Url=%2Fcreate-guest.json';
         const checkoutUrl = checkout.isValid ? `&knob-Get%20Checkout%20Url=%2Fcheckout-${checkout.type}.json` : '';
         const basketUrl = `&knob-Get%20Basket%20Url=%2Fget-basket-${checkout.type}.json`;
-<<<<<<< HEAD
-=======
         const placeOrderUrl = '&knob-Place%20Order%20Url=%2Fplace-order.json';
         const paymentPageUrlPrefix = '&knob-Payment%20Page%20Url%20Prefix=%23%2Fpay';
->>>>>>> master
 
         if (checkout.isAuthenticated) {
             authQueryString = '&knob-Auth%20token=a';
             createGuestUrl = '';
         }
 
-<<<<<<< HEAD
-        const url = `checkout-component${checkoutUrl}&knob-Available%20Fulfilment%20Url=%2Fcheckout-available-fulfilment.json${authQueryString}${basketUrl}${createGuestUrl}`;
-=======
         const url = `checkout-component${checkoutUrl}&knob-Available%20Fulfilment%20Url=%2Fcheckout-available-fulfilment.json${authQueryString}${basketUrl}${createGuestUrl}${placeOrderUrl}${paymentPageUrlPrefix}`;
->>>>>>> master
         super.openComponent('organism', url);
     }
 

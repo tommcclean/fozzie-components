@@ -5,12 +5,7 @@ const Checkout = require('../../../test-utils/component-objects/f-checkout.compo
 const checkout = new Checkout();
 
 describe('f-checkout "collection" component tests', () => {
-<<<<<<< HEAD
-    beforeEach(() => {
-
-=======
     before(() => {
->>>>>>> master
         const checkoutData = {
             type: 'collection',
             isAuthenticated: true,
