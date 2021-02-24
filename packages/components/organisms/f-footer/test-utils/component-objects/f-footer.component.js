@@ -1,3 +1,6 @@
+/* eslint-disable no-undef */
+/* eslint-disable lines-between-class-members */
+/* eslint-disable class-methods-use-this */
 const Page = require('@justeat/f-wdio-utils/src/page.object');
 const {
     FOOTER_COMPONENT,
@@ -9,70 +12,69 @@ const {
 
 class Footer extends Page {
 
-    get component () { return $(FOOTER_COMPONENT) }
-    get icons () { return  $$(FOOTER_ICONS) }
-    get downloadIcons () { return $$(DOWNLOAD_ICONS) }
-    get socialIcons () { return $$(SOCIAL_ICONS) }
-    get courierLinks () { return $(COURIER_LINKS) }
-    get downloadIcon ()  { return this.downloadIconValue }
-    get socialIcon () { return this.socialIconValue }
+    get component () { return $(FOOTER_COMPONENT); }
+    get icons () { return $$(FOOTER_ICONS); }
+    get downloadIcons () { return $$(DOWNLOAD_ICONS); }
+    get socialIcons () { return $$(SOCIAL_ICONS); }
+    get courierLinks () { return $(COURIER_LINKS); }
+    get downloadIcon () { return this.downloadIconValue; }
+    get socialIcon () { return this.socialIconValue; }
 
-    set expectedDownloadIcon(icon) {
+    set expectedDownloadIcon (icon) {
         this.downloadIconValue = this.downloadIcons.filter(element => element.getAttribute('data-test-id').includes(icon))[0];
     }
 
-    set expectedSocialIcon(icon){
+    set expectedSocialIcon (icon) {
         this.socialIconValue = this.socialIcons.filter(element => element.getAttribute('data-test-id').includes(icon))[0];
     }
 
-    open(locale = 'gb'){
-        let countryFormatted = locale.toUpperCase();
+    open (locale = 'gb') {
+        const countryFormatted = locale.toUpperCase();
         let formattedLocale = '';
-        switch ( countryFormatted ){
+        switch (countryFormatted) {
             case 'GB':
             case 'AU':
-                formattedLocale = `en-${countryFormatted}`
-                break
-            default: 
-                throw new Error (`locale ${countryFormatted} is not supported`);
+                formattedLocale = `en-${countryFormatted}`;
+                break;
+            default:
+                throw new Error(`locale ${countryFormatted} is not supported`);
         }
         super.openComponent('organism', `footer-component&knob-Locale=${formattedLocale}`);
     }
 
-
-    openAUWithExtraFeatures(){
+    openAUWithExtraFeatures () {
         super.openComponent('organism', 'footer-component&knob-Show%20courier%20links=true&knob-Locale=en-AU');
     }
 
-    openGBWithExtraFeatures(){
+    openGBWithExtraFeatures () {
         super.openComponent('organism', 'footer-component&knob-Show%20courier%20links=true&knob-Locale=en-GB');
     }
 
-    waitForComponent(){
+    waitForComponent () {
         super.waitForComponent(this.component);
     }
 
-    isComponentDisplayed(){
+    isComponentDisplayed () {
         return this.component.isDisplayed();
     }
 
-    isDowloadIconDisplayed(){
+    isDownloadIconDisplayed () {
         return this.downloadIcon.isDisplayed();
     }
 
-    clickDownloadIcon(){
+    clickDownloadIcon () {
         return this.downloadIcon.click();
     }
 
-    isSocialIconDisplayed(){
+    isSocialIconDisplayed () {
         return this.socialIcon.isDisplayed();
     }
 
-    clickSocialIcon(){
+    clickSocialIcon () {
         return this.socialIcon.click();
     }
 
-    areCourierLinksDisplayed(){
+    areCourierLinksDisplayed () {
         return this.courierLinks.isDisplayed();
     }
 }
