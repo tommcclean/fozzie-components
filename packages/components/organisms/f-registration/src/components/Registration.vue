@@ -157,6 +157,10 @@
                     data-test-id="cookies-policy-link"
                     :href="copy.navLinks.cookiesPolicy.url"
                     target="_blank">{{ copy.navLinks.cookiesPolicy.text }}</a>{{ copy.navLinks.cookiesPolicy.suffix }}
+                <a
+                    data-test-id="cookies-policy-link"
+                    :href="copy.navLinks.cookiesPolicy.url"
+                    target="_blank">{{ copy.navLinks.cookiesPolicy.text }}</a>{{ copy.navLinks.cookiesPolicy.suffix }}
             </p>
         </card-component>
     </div>
@@ -171,6 +175,7 @@ import {
     minLength,
     maxLength
 } from 'vuelidate/lib/validators';
+
 import { BagCelebrateIcon } from '@justeat/f-vue-icons';
 import FButton from '@justeat/f-button';
 import '@justeat/f-button/dist/f-button.css';
