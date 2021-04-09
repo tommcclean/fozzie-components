@@ -1,5 +1,8 @@
 @import './common.scss';
 
+$nav-text-color--hover : $color-link-hover;
+$nav-text-color--transparent : $white;
+
 $nav-transition-duration : 250ms;
 
 $nav-trigger-width : 56px;
@@ -48,6 +51,29 @@ $countrySelector-flag-height : 16px;
     }
 }
 
+.c-nav-list-link {
+
+    &:hover,
+    &:focus,
+    &:active {
+        text-decoration: none;
+
+        @include media('>mid') {
+            color: $nav-text-color--hover;
+            text-decoration: underline;
+
+            .c-header--highlightBg,
+            .c-header--transparent & {
+                color: $nav-text-color--transparent;
+            }
+
+            .c-header--transparent .c-nav-popoverList & {
+                color: inherit;
+            }
+        }
+    }
+}
+
 .c-nav-popoverList--twoColumns {
     @include media('>mid') {
         column-count: 2;
@@ -90,28 +116,28 @@ $countrySelector-flag-height : 16px;
         justify-content: flex-end;
         flex-grow: 1;
     }
+}
 
-    // we have a nav container so that we don’t have to make the inner list 100% height
-    // this is so we can position the logout button last on mobile
-    &.c-nav-container {
-        @include media('<=mid') {
-            position: fixed;
-            top: $header-height--narrow;
-            left: -99999px;
-            width: 100%;
-            padding: 0;
-            height: calc(100% - (#{$header-height--narrow}));
-            border-top: $header-separator solid $header-border-color;
-            background: $white;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity $nav-transition-duration ease-in-out,
-                z-index 0s linear $nav-transition-duration,
-                left 0s linear ($nav-popover-transition-delay + $nav-popover-transition-duration);
+// we have a nav container so that we don’t have to make the inner list 100% height
+// this is so we can position the logout button last on mobile
+.c-nav-container {
+    @include media('<=mid') {
+        position: fixed;
+        top: $header-height--narrow;
+        left: -99999px;
+        width: 100%;
+        padding: 0;
+        height: calc(100% - (#{$header-height--narrow}));
+        border-top: $header-separator solid $header-border-color;
+        background: $white;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity $nav-transition-duration ease-in-out,
+            z-index 0s linear $nav-transition-duration,
+            left 0s linear ($nav-popover-transition-delay + $nav-popover-transition-duration);
 
-            &.is-visible {
-                @include nav-container-visible();
-            }
+        &.is-visible {
+            @include nav-container-visible();
         }
     }
 }

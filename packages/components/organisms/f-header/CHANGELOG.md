@@ -14,7 +14,7 @@ v4.14.0
 
 v4.13.0
 ------------------------------
-*April 1, 2021*
+*April 9, 2021*
 
 ### Changed
 - Convert `Navigation` component to use css modules.
@@ -23,12 +23,23 @@ v4.13.0
 
 v4.12.0
 ------------------------------
-*April 1, 2021*
+*April 9, 2021*
 
 ### Changed
 - Add shared `nav.scss` file.
 - Convert `CountrySelectorPanel`, `Logo`, `SkipToMain` and `UserNavigationPanel` components to use css modules.
 - Unit and Component tests to support changes.
+
+
+*March 31, 2021*
+
+### Added
+- Component tests for locales `au, dk, ie, es, no, it, nz`
+- Component test for offers icon in mobile spec
+- Accessibility tests for the above locales
+
+### Changed
+- Small refactor to `open` function in component-object
 
 
 v4.11.1

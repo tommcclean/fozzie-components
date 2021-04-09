@@ -75,7 +75,9 @@
                 $style['c-nav-container'],
                 { [$style['is-visible']]: navIsOpen }
             ]">
-            <ul :class="$style['c-nav-list']">
+            <ul
+                :class="$style['c-nav-list']"
+                data-test-id="nav-list">
                 <li
                     v-if="showOffersLink"
                     :class="$style['c-nav-list-item--horizontallyAlignedAboveMid']">
@@ -591,7 +593,8 @@ export default {
 </script>
 
 <style lang="scss" module>
-@import '../assets/scss/nav.scss';
+@import '../assets/scss/navigation.scss';
+
 // TODO - Pull in fozzie utilities css instead
 // https://github.com/justeat/fozzie/blob/f7f0184ba3a244c19d6e83c44c35a31b7c2dd2d9/src/scss/trumps/_utilities.scss
 // Hide from both screenreaders and browsers: h5bp.com/u
@@ -629,7 +632,6 @@ export default {
 $nav-text-size                     : 'body-l';
 $nav-text-size--narrow             : 'body-s';
 $nav-text-color                    : $color-link-default;
-$nav-text-color--hover             : $color-link-hover;
 $nav-text-color--narrow            : $grey--dark;
 $nav-text-color--transparent       : $white;
 $nav-text-weight                   : $font-weight-bold;
@@ -637,6 +639,7 @@ $nav-text-subFont                  : $font-family-base;
 $nav-icon-color                    : $color-secondary;
 $nav-icon-color--transparent       : $white;
 $nav-icon-color--mobileWhiteBg     : $grey--darkest;
+$nav-transition-duration           : 250ms;
 $nav-icon-size                     : 24px;
 
 $nav-featureLinkIcon-width         : 28px;
@@ -652,15 +655,6 @@ $nav-toggleIcon-bg                 : transparent;
 $nav-toggleIcon-space              : 5px;
 
 $nav-popover-width                 : 300px;
-
-@mixin nav-container-visible () {
-    overflow-y: auto;
-    left: 0;
-    opacity: 1;
-    z-index: zIndex(high);
-    transition: opacity $nav-transition-duration ease-in-out,
-                z-index 0s linear;
-}
 
 // removes scroll
 .is-navInView {
@@ -746,28 +740,6 @@ $nav-popover-width                 : 300px;
             &.u-showBelowMid {
                 @include media('>mid') {
                     display: none !important;
-                }
-            }
-        }
-
-        .c-nav-list-link {
-            &:hover,
-            &:focus,
-            &:active {
-                text-decoration: none;
-
-                @include media('>mid') {
-                    color: $nav-text-color--hover;
-                    text-decoration: underline;
-
-                    .c-header--highlightBg,
-                    .c-header--transparent & {
-                        color: $nav-text-color--transparent;
-                    }
-
-                    .c-header--transparent .c-nav-popoverList & {
-                        color: inherit;
-                    }
                 }
             }
         }

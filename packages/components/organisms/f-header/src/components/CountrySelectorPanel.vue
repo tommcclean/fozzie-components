@@ -1,8 +1,8 @@
 <template>
     <div
         :class="[
-            $style['c-nav-container'],
-            { [$style['is-visible']]: isOpen }
+            'c-nav-container',
+            { 'is-visible': isOpen }
         ]">
         <div :class="$style['c-countrySelector']">
             <header :class="$style['c-countrySelector-header']">
@@ -86,7 +86,7 @@ export default {
 </script>
 
 <style lang="scss" module>
-@import '../assets/scss/nav.scss';
+@import '../assets/scss/navigation.scss';
 
 $countrySelector-text-color : $grey--darkest;
 $countrySelector-text-hover : $color-bg--darker;

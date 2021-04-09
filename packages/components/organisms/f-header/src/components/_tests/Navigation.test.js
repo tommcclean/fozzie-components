@@ -11,6 +11,12 @@ import {
 
 import Navigation from '../Navigation.vue';
 
+const $style = {
+    'is-open': 'is-open',
+    'c-nav-toggle--altColour': 'c-nav-toggle--altColour',
+    'is-hidden': 'is-hidden'
+};
+
 let wrapper;
 
 jest.mock('@justeat/f-services', () => ({
@@ -198,8 +204,7 @@ describe('Navigation', () => {
         describe('on mobile', () => {
             beforeEach(setMobileViewport);
 
-            // TODO: CSS module classes don't show in Jest
-            xit('should be shown when is "navIsOpen" is true', async () => {
+            it('should be shown when is "navIsOpen" is true', async () => {
                 // Arrange
                 wrapper = shallowMount(Navigation, {
                     propsData: {
@@ -208,6 +213,9 @@ describe('Navigation', () => {
                             ...defaultPropsData.copy,
                             navLinks: {}
                         }
+                    },
+                    mocks: {
+                        $style
                     }
                 });
 
@@ -225,10 +233,14 @@ describe('Navigation', () => {
                 expect(wrapper.find('[data-test-id="nav-toggle"]').classes()).toContain('is-open');
             });
 
-            // TODO: CSS module classes don't show in Jest
-            xit('should not be shown when "navIsOpen" is false', async () => {
+            it('should not be shown when "navIsOpen" is false', async () => {
                 // Arrange
-                wrapper = shallowMount(Navigation, { propsData: defaultPropsData });
+                wrapper = shallowMount(Navigation, {
+                    propsData: defaultPropsData,
+                    mocks: {
+                        $style
+                    }
+                });
 
                 await wrapper.setData({
                     ...defaultData,
@@ -246,14 +258,15 @@ describe('Navigation', () => {
             });
         });
 
-
-        // TODO: CSS module classes don't show in Jest
-        xit('should be white when "headerBackgroundTheme" is set to "highlight"', () => {
+        it('should be white when "headerBackgroundTheme" is set to "highlight"', () => {
             // Arrange & Act
             wrapper = shallowMount(Navigation, {
                 propsData: {
                     ...defaultPropsData,
                     headerBackgroundTheme: 'highlight'
+                },
+                mocks: {
+                    $style
                 }
             });
 
@@ -642,8 +655,7 @@ describe('Navigation', () => {
             expect(wrapper.find('[data-test-id="login"]').exists()).toBe(false);
         });
 
-        // TODO: CSS module classes don't show in Jest
-        xit('should NOT show "navLinks" if `showLoginInfo: false` and the user is logged in and has nav link data', async () => {
+        it('should NOT show "navLinks" if `: false` and the user is logged in and has nav link data', async () => {
             // Arrange
             wrapper = shallowMount(Navigation, {
                 propsData: {
@@ -654,6 +666,9 @@ describe('Navigation', () => {
                     hasNavigationLinks () {
                         return true;
                     }
+                },
+                mocks: {
+                    $style
                 }
             });
 
@@ -736,13 +751,15 @@ describe('Navigation', () => {
             expect(wrapper.find('[data-test-id="country-selector"]').exists()).toBe(false);
         });
 
-        // TODO: CSS module classes don't show in Jest
-        xit('should be open if `countrySelectorIsOpen: true`', async () => {
+        it('should be open if `countrySelectorIsOpen: true`', async () => {
             // Arrange
             wrapper = shallowMount(Navigation, {
                 propsData: {
                     ...defaultPropsData,
                     showCountrySelector: true
+                },
+                mocks: {
+                    $style
                 }
             });
 
@@ -753,13 +770,15 @@ describe('Navigation', () => {
             expect(wrapper.find('[data-test-id="country-selector"]').classes()).toContain('is-open');
         });
 
-        // TODO: CSS module classes don't show in Jest
-        xit('should not be open when `countrySelectorIsOpen: false`', async () => {
+        it('should not be open when `countrySelectorIsOpen: false`', async () => {
             // Arrange
             wrapper = shallowMount(Navigation, {
                 propsData: {
                     ...defaultPropsData,
                     showCountrySelector: true
+                },
+                mocks: {
+                    $style
                 }
             });
 
