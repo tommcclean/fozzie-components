@@ -75,7 +75,9 @@
                 $style['c-nav-container'],
                 { [$style['is-visible']]: navIsOpen }
             ]">
-            <ul :class="$style['c-nav-list']">
+            <ul
+                :class="$style['c-nav-list']"
+                data-test-id="nav-list">
                 <li
                     v-if="showOffersLink"
                     :class="$style['c-nav-list-item--horizontallyAlignedAboveMid']">

@@ -5,7 +5,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 v4.13.0
 ------------------------------
-*April 1, 2021*
+*April 9, 2021*
 
 ### Changed
 - Convert `Navigation` component to use css modules.
