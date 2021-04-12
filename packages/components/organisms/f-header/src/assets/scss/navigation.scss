@@ -62,11 +62,6 @@ $countrySelector-flag-height : 16px;
             color: $nav-text-color--hover;
             text-decoration: underline;
 
-            .c-header--highlightBg,
-            .c-header--transparent & {
-                color: $nav-text-color--transparent;
-            }
-
             .c-header--transparent .c-nav-popoverList & {
                 color: inherit;
             }
