@@ -63,7 +63,8 @@
             <gift-icon
                 :class="[
                     $style['c-nav-icon'],
-                    $style['c-nav-icon--offers']
+                    $style['c-nav-icon--offers'],
+                    { [$style['c-nav-icon--alt']]: isAltColour && !navIsOpen }
                 ]" />
             <span :class="$style['is-visuallyHidden']">
                 {{ copy.offers.text }}
@@ -90,11 +91,15 @@
                             "label": "offers"
                         }'
                         :href="copy.offers.url"
-                        :class="$style['c-nav-list-link']">
+                        :class="[
+                            $style['c-nav-list-link'],
+                            { [$style['c-nav-list-link--alt']]: isAltColour }
+                        ]">
                         <gift-icon
                             :class="[
                                 $style['c-nav-icon'],
-                                $style['c-nav-icon--offers']
+                                $style['c-nav-icon--offers'],
+                                { [$style['c-nav-icon--alt']]: isAltColour && !navIsOpen }
                             ]" />
                         {{ copy.offers.text }}
                     </a>
@@ -113,11 +118,15 @@
                         }`'
                         :href="copy.deliveryEnquiry.url"
                         target="_blank"
-                        :class="$style['c-nav-list-link']">
+                        :class="[
+                            $style['c-nav-list-link'],
+                            { [$style['c-nav-list-link--alt']]: isAltColour }
+                        ]">
                         <moped-icon
                             :class="[
                                 $style['c-nav-icon'],
-                                $style['c-nav-icon--delivery']
+                                $style['c-nav-icon--delivery'],
+                                { [$style['c-nav-icon--alt']]: isAltColour && !navIsOpen }
                             ]" />
                         {{ copy.deliveryEnquiry.text }}
                     </a>
@@ -127,15 +136,15 @@
                         $style['c-nav-list-item--horizontallyAlignedAboveMid'],
                         $style['has-sublist'], {
                             [$style['is-hidden']]: !userInfo || !showLoginInfo,
-                            [$style['is-open']]: navIsOpen
+                            [$style['is-open']]: userMenuIsOpen
                         }]"
                     data-test-id="user-info-icon"
-                    v-on="isBelowMid ? null : { mouseover: openNav, mouseleave: closeNav }"
-                    @keyup.esc="closeNav">
+                    v-on="isBelowMid ? null : { mouseover: openUserMennu, mouseleave: closeUserMenu }"
+                    @keyup.esc="closeUserMenu">
                     <a
                         data-test-id="user-info-link"
                         :tabindex="isBelowMid ? -1 : 0"
-                        :aria-expanded="!isBelowMid && navIsOpen ? 'true' : 'false'"
+                        :aria-expanded="!isBelowMid && userMenuIsOpen ? 'true' : 'false'"
                         :aria-haspopup="isBelowMid ? false : true"
                         :class="$style['c-nav-list-text']"
                         href="/"
@@ -143,9 +152,14 @@
                         <profile-icon
                             :class="[
                                 $style['c-nav-icon'],
-                                $style['c-nav-icon--profile']
+                                $style['c-nav-icon--profile'],
+                                { [$style['c-nav-icon--alt']]: isAltColour && !navIsOpen }
                             ]" />
-                        <span :class="$style['c-nav-list-text-sub']">
+                        <span
+                            :class="[
+                                $style['c-nav-list-text-sub'],
+                                { [$style['c-nav-list-link--alt']]: isAltColour }
+                            ]">
                             {{ userInfo.friendlyName }}
                         </span>
                         <span
@@ -163,8 +177,8 @@
                             :is-below-mid="isBelowMid"
                             :copy="copy"
                             :return-logout-url="returnLogoutUrl"
-                            @activateNav="openNav"
-                            @deactivateNav="closeNav" />
+                            @activateNav="openUserMennu"
+                            @deactivateNav="closeUserMenu" />
                     </v-popover>
                 </li>
 
@@ -183,7 +197,8 @@
                         rel="nofollow"
                         :class="[
                             $style['c-nav-list-link'],
-                            { [$style['c-nav-list-link--leftPaddingBelowMid']]: userInfo }
+                            { [$style['c-nav-list-link--leftPaddingBelowMid']]: userInfo },
+                            { [$style['c-nav-list-link--alt']]: isAltColour }
                         ]"
                         data-test-id="login-link">
                         {{ copy.accountLogin.text }}
@@ -203,10 +218,11 @@
                             }`'
                         :class="[
                             $style['c-nav-list-link'],
-                            { [$style['c-nav-list-link--leftPaddingBelowMid']]: userInfo }
+                            { [$style['c-nav-list-link--leftPaddingBelowMid']]: userInfo },
+                            { [$style['c-nav-list-link--alt']]: isAltColour }
                         ]"
                         data-test-id="help-link"
-                        v-on="isBelowMid ? { blur: closeNav, focus: openNav } : null">
+                        v-on="isBelowMid ? { blur: closeUserMenu, focus: openUserMennu } : null">
                         {{ copy.help.text }}
                     </a>
                 </li>
@@ -226,8 +242,10 @@
                             }`'
                         :class="[
                             $style['c-nav-list-link'],
-                            { [$style['c-nav-list-link--leftPaddingBelowMid']]: userInfo }]"
-                        v-on="isBelowMid ? { blur: closeNav, focus: openNav } : null">
+                            { [$style['c-nav-list-link--leftPaddingBelowMid']]: userInfo },
+                            { [$style['c-nav-list-link--alt']]: isAltColour }
+                        ]"
+                        v-on="isBelowMid ? { blur: closeUserMenu, focus: openUserMennu } : null">
                         {{ copy.accountLogout.text }}
                     </a>
                 </li>
@@ -254,7 +272,7 @@
                         :aria-haspopup="!isBelowMid"
                         :aria-label="copy.countrySelector.changeCurrentCountry"
                         @click="onCountrySelectorToggle"
-                        v-on="countrySelectorIsClosedOnMobileView ? { blur: closeNav, focus: openNav } : null">
+                        v-on="countrySelectorIsClosedOnMobileView ? { blur: closeUserMenu, focus: openUserMennu } : null">
                         <span :class="$style['c-nav-list-iconWrapper']">
                             <flag-icon
                                 data-test-id="current-flag-icon"
@@ -380,6 +398,7 @@ export default {
     data () {
         return {
             navIsOpen: false,
+            userMenuIsOpen: false,
             currentScreenWidth: null,
             userInfo: this.userInfoProp,
             localOrderCountExpires: false,
@@ -420,6 +439,10 @@ export default {
         isOrderCountOutOfDate () {
             const currentTime = new Date().getTime();
             return this.localOrderCountExpires < currentTime;
+        },
+
+        isAltColour () {
+            return this.headerBackgroundTheme === 'highlight' || this.headerBackgroundTheme === 'transparent';
         },
 
         navToggleThemeClass () {
@@ -480,13 +503,13 @@ export default {
             this.handleMobileNavState();
         },
 
-        closeNav () {
-            this.navIsOpen = false;
+        closeUserMenu () {
+            this.userMenuIsOpen = false;
             this.handleMobileNavState();
         },
 
-        openNav () {
-            this.navIsOpen = true;
+        openUserMennu () {
+            this.userMenuIsOpen = true;
             this.handleMobileNavState();
         },
 
@@ -716,17 +739,12 @@ $nav-popover-width                 : 300px;
                 color: $nav-text-color;
                 border-bottom: none;
                 height: $header-height;
-
-                .c-header--highlightBg &,
-                .c-header--transparent & {
-                    color: $nav-text-color--transparent;
-                }
             }
         }
 
-        .c-header--highlightBg {
-            .c-nav-list-link:hover {
-                color: $nav-text-color--hover;
+        .c-nav-list-link--alt {
+            @include media('>mid') {
+                color: $nav-text-color--transparent;
             }
         }
 
@@ -806,15 +824,9 @@ $nav-popover-width                 : 300px;
         margin-right: spacing();
         width: $nav-icon-size;
         height: $nav-icon-size;
-
         @include media('>mid') {
             & path {
                 fill: $nav-icon-color;
-
-                .c-header--highlightBg &,
-                .c-header--transparent & {
-                    fill: $nav-icon-color--transparent;
-                }
             }
         }
     }
@@ -826,6 +838,12 @@ $nav-popover-width                 : 300px;
             & path {
                 fill: $nav-icon-color--mobileWhiteBg;
             }
+        }
+    }
+
+    .c-nav-icon--alt {
+        & path {
+            fill: $nav-icon-color--transparent;
         }
     }
 
