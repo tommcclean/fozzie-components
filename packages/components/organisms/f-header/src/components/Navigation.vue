@@ -534,8 +534,8 @@ export default {
                 this.$emit('onMobileNavToggle', this.navIsOpen);
 
                 if (typeof document !== 'undefined') {
-                    document.documentElement.classList.toggle('is-navInView', this.navIsOpen);
-                    document.documentElement.classList.toggle('is-navInView--noPad', this.navIsOpen && this.headerBackgroundTheme === 'transparent');
+                    document.documentElement.classList.toggle(this.$style['is-navInView'], this.navIsOpen);
+                    document.documentElement.classList.toggle(this.$style['is-navInView--noPad'], this.navIsOpen && this.headerBackgroundTheme === 'transparent');
                 }
             }
         },
@@ -687,7 +687,7 @@ $nav-popover-width                 : 300px;
         body {
             position: fixed;
             width: 100%;
-            padding-top: $header-height--narrow;
+            padding-top: 100px;
         }
     }
 }

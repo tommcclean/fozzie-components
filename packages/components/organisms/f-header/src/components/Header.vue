@@ -4,7 +4,8 @@
         :class="[
             $style['c-header'],
             headerBackgroundClass,
-            transparentClasses
+            transparentClasses,
+            { [$style['c-header--navInView']]: mobileNavIsOpen }
         ]"
         data-test-id='header-component'>
         <skip-to-main
@@ -173,18 +174,6 @@ export default {
     position: relative;
     z-index: zIndex(mid);
 
-    // when the off-screen navigation is active (on mobile), it fixes to the top of the screen.
-    // this stops the content being forced upwards when this happens (preventing slight visual glitch)
-    .is-navInView & {
-        @include media('<=mid') {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: zIndex(high);
-        }
-    }
-
     // Styles for a sticky header on mobile
     @include media('<=mid') {
         &.is-sticky {
@@ -200,6 +189,18 @@ export default {
 
     @include media('>mid') {
         border-bottom: $header-separator solid $header-border-color;
+    }
+}
+
+// when the off-screen navigation is active (on mobile), it fixes to the top of the screen.
+// this stops the content being forced upwards when this happens (preventing slight visual glitch)
+.c-header--navInView {
+    @include media('<=mid') {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: zIndex(high);
     }
 }
 
