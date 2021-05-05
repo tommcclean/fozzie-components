@@ -7,6 +7,20 @@ describe('createClient', () => {
             expect(createClient).toBeDefined();
         });
 
+        it('should expose expected methods', async () => {
+            // Arrange & Act
+            const httpClient = createClient();
+
+            // Assert
+            expect(httpClient).toBeDefined();
+            expect(httpClient.get).toBeDefined();
+            expect(httpClient.post).toBeDefined();
+            expect(httpClient.put).toBeDefined();
+            expect(httpClient.patch).toBeDefined();
+            expect(httpClient.delete).toBeDefined();
+            expect(httpClient.readConfiguration).toBeDefined();
+        });
+
         it('should use default options when not overridden', async () => {
             // Arrange
             const expectedResult = {
