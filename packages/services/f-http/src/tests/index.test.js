@@ -1,21 +1,19 @@
-import createClient from '../createClient';
+import httpVerbs from '../httpVerbs';
 
-describe('createClient', () => {
+describe('httpVerbs', () => {
     beforeEach(() => {});
 
     it('should be defined', async () => {
         // Arrange, Act & Assert
-        expect(createClient).toBeDefined();
+        expect(httpVerbs).toBeDefined();
     });
 
-    it('should expose expected methods', async () => {
-        // Arrange & Act
-        const httpClient = createClient();
-
-        // Assert
-        expect(httpClient).toBeDefined();
-        expect(httpClient.get).toBeDefined();
-        expect(httpClient.post).toBeDefined();
-        expect(httpClient.readConfiguration).toBeDefined();
+    it('should define expected properties with correct values', async () => {
+        // Arrange, Act & Assert
+        expect(httpVerbs.METHOD_GET).toBe('GET');
+        expect(httpVerbs.METHOD_POST).toBe('POST');
+        expect(httpVerbs.METHOD_PUT).toBe('PUT');
+        expect(httpVerbs.METHOD_PATCH).toBe('PATCH');
+        expect(httpVerbs.METHOD_DELETE).toBe('DELETE');
     });
 });
