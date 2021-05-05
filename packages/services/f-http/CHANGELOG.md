@@ -11,6 +11,7 @@ v0.4.0
 - Expose HTTPVerbs for PUT, PATCH, DELETE
 - Expose methods for PUT, PATCH, DELETE on client
 - Expose a method for setting authorisation token for all requests from a client
+- Ability to name a client - useful when we can push stats and logs by API or grouping name
 
 v0.3.0
 ------------------------------

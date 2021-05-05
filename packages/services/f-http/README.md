@@ -22,6 +22,7 @@ This package exposes methods for interacting with restful services, it may abstr
 - Enables us to switch to alternative HTTP packages when desired
 - Sensible defaults, with the ability to override everything
 - Ability to set authorisation tokens for all requests for specific clients
+- Ability to name each client, so output from it is grouped and labelled
 
 ## Benefits (Soon)
 - _Automatically collect stats showing how long real API calls take_
@@ -53,6 +54,7 @@ const errorCallback = error => { // This is optional
 
 export default (context, inject) => {
     const options = { // Options are described later
+        instanceName: 'Example Nuxt client'
         baseUrl: 'https://jsonplaceholder.typicode.com',
         errorCallback
     };
@@ -75,6 +77,7 @@ const errorCallback = error => { // This is optional
 
 export default () => {
     const configuration = { // Options are described later
+        instanceName: 'Example client'
         baseUrl: 'https://jsonplaceholder.typicode.com',
         errorCallback
     };
@@ -141,7 +144,8 @@ const { mockFactory, httpVerbs } = httpModule;
 
 mockFactory.setupMockResponse(httpVerbs.METHOD_POST, '/URL', REQUEST_DATA, 201);
 
-const $http = mockFactory.createMockClient();
+// Accepts options payload
+const $http = mockFactory.createMockClient({ instanceName: 'Integration Test Client'});
 
 const wrapper = mount(MyComponent, {
   mocks: {
@@ -160,6 +164,7 @@ baseUrl | Ensure all requests from this client use a relative url | string | ''
 timeout | How long each request takes to timeout | number | 10000
 errorCallback | A function you can use to globally handle errors (accepts error object) | function | null
 contentType | Specify a value for the content type header | string | 'application/json'
+instanceName | Name the client so that stats and logs can be grouped by a specific API | 'Generic Front End'
 
 <hr>
 

@@ -28,7 +28,8 @@ describe('createClient', () => {
                 baseUrl: '',
                 timeout: 10000,
                 errorCallback: null,
-                contentType: 'application/json'
+                contentType: 'application/json',
+                instanceName: 'Generic Front End'
             };
 
             // Act
@@ -45,12 +46,14 @@ describe('createClient', () => {
             const expectedTimeout = 2000;
             const expectedErrorCallback = () => {};
             const expectedContentType = 'application/mpeg';
+            const expectedInstanceName = 'Test Test Test';
 
             const expectedResult = {
                 baseUrl: expectedBaseUrl,
                 timeout: expectedTimeout,
                 errorCallback: expectedErrorCallback,
-                contentType: expectedContentType
+                contentType: expectedContentType,
+                instanceName: expectedInstanceName
             };
 
             // Act
