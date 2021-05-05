@@ -10,6 +10,7 @@ v0.4.0
 ### Added
 - Expose HTTPVerbs for PUT, PATCH, DELETE
 - Expose methods for PUT, PATCH, DELETE on client
+- Expose a method for setting authorisation token for all requests from a client
 
 v0.3.0
 ------------------------------

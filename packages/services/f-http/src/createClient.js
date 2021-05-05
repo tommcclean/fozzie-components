@@ -1,6 +1,7 @@
 import axios from 'axios';
 import defaultOptions from './defaultOptions';
 import handleError from './errorHandler';
+import setAuthorisationToken from './authorisationHandler';
 
 let _configuration = null;
 let _axiosInstance = null;
@@ -127,6 +128,7 @@ export default (options = {}) => {
         patch: patchResource,
         put: putResource,
         delete: deleteResource,
+        setAuthorisationToken,
         readConfiguration: () => _configuration
     };
 };

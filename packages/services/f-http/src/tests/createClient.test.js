@@ -18,6 +18,7 @@ describe('createClient', () => {
             expect(httpClient.put).toBeDefined();
             expect(httpClient.patch).toBeDefined();
             expect(httpClient.delete).toBeDefined();
+            expect(httpClient.setAuthorisationToken).toBeDefined();
             expect(httpClient.readConfiguration).toBeDefined();
         });
 

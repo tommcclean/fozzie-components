@@ -1,8 +1,6 @@
 import httpVerbs from '../httpVerbs';
 
 describe('httpVerbs', () => {
-    beforeEach(() => {});
-
     it('should be defined', async () => {
         // Arrange, Act & Assert
         expect(httpVerbs).toBeDefined();
