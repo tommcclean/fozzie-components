@@ -1,16 +1,9 @@
-import axios from 'axios';
-
 export default {
-    async createAccount (url, tenant, data, timeout) {
-        const config = {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept-Tenant': tenant
-            },
-            timeout
+    async createAccount ($http, url, tenant, data) {
+        const headers = {
+            'Accept-Tenant': tenant
         };
-        return axios
-            .post(url, data, config);
+
+        return $http.post(url, data, headers);
     }
 };
