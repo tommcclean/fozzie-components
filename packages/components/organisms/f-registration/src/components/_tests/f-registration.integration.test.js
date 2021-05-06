@@ -33,7 +33,7 @@ describe('Registration API service', () => {
 
     it('responds with 201 when request is made with valid details', async () => {
         // Arrange
-        mockFactory.setupMockResponse(httpVerbs.METHOD_POST, propsData.createAccountUrl, CONSUMERS_REQUEST_DATA, 201);
+        mockFactory.setupMockResponse(httpVerbs.POST, propsData.createAccountUrl, CONSUMERS_REQUEST_DATA, 201);
 
         const wrapper = mount(Registration, {
             mocks: {
@@ -55,7 +55,7 @@ describe('Registration API service', () => {
 
     it('responds with 409 when request is made with e-mail in use', async () => {
         // Arrange
-        mockFactory.setupMockResponse(httpVerbs.METHOD_POST, propsData.createAccountUrl, CONSUMERS_REQUEST_DATA, 409, {
+        mockFactory.setupMockResponse(httpVerbs.POST, propsData.createAccountUrl, CONSUMERS_REQUEST_DATA, 409, {
             faultId: 'e2ea5f11-f771-487a-9f80-5c6f0981890b',
             traceId: '80000806-0000-fd00-b63f-84710c7967bb',
             errors: [
@@ -87,7 +87,7 @@ describe('Registration API service', () => {
 
     it('responds with 403 when login blocked by ravelin or recaptcha', async () => {
         // Arrange
-        mockFactory.setupMockResponse(httpVerbs.METHOD_POST, propsData.createAccountUrl, CONSUMERS_REQUEST_DATA, 403, {
+        mockFactory.setupMockResponse(httpVerbs.POST, propsData.createAccountUrl, CONSUMERS_REQUEST_DATA, 403, {
             faultId: '25bbe062-c53d-4fbc-9d6c-3df6127b94fd',
             traceId: 'H3TKh4QSJUSwVBCBqEtkKw',
             errors: [
